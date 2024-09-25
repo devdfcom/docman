@@ -1,13 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="devdf.plugins.docman">
     <application>
         <provider
-            android:name="devdf.plugins.docman.DocsProvider"
-            android:authorities="${applicationId}.plugins.docsProvider"
+            android:name="devdf.plugins.docman.DocManProvider"
+            android:authorities="${applicationId}.plugins.files"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/docman_provider_path"
+                android:resource="@xml/docman_provider_paths"
                 />
         </provider>
     </application>
