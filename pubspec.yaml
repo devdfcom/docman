@@ -1,5 +1,5 @@
 name: docman
-description: "DocumentsManager - Android files & directories helper"
+description: DocumentsManager - Android files & directories helper
 version: 0.0.1
 homepage:
 
@@ -10,11 +10,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  plugin_platform_interface: ^2.0.2
+  plugin_platform_interface: ^2.1.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  devdf_linter:
+    git:
+      url: git@github.com:devdfcom/data.git
+      path: packages/devdf_linter
   flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
@@ -36,7 +40,7 @@ flutter:
     platforms:
       android:
         package: devdf.plugins.docman
-        pluginClass: DocmanPlugin
+        pluginClass: DocManPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

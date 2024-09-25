@@ -1,3 +1,14 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="devdf.plugins.docman">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="devdf.plugins.docman">
+    <application>
+        <provider
+            android:name="devdf.plugins.docman.DocsProvider"
+            android:authorities="${applicationId}.plugins.docsProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/plugins_file_worker_provider_paths"
+                />
+        </provider>
+    </application>
 </manifest>

@@ -1,8 +1,5 @@
-
-import 'docman_platform_interface.dart';
+import 'package:docman/channels/document_file_api.dart';
 
 class Docman {
-  Future<String?> getPlatformVersion() {
-    return DocmanPlatform.instance.getPlatformVersion();
-  }
+  Future<String?> getPlatformVersion() => DocumentFileApi.instance.getPlatformVersion();
 }
