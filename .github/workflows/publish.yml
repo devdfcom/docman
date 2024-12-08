@@ -5,29 +5,33 @@ on:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+' # tag-pattern on pub.dev: 'v{{1.0.0}}'
 
+permissions:
+  id-token: write
+
 # Publish using custom workflow
 jobs:
   publish:
     name: Publish
     permissions:
       id-token: write
-      contents: write
-      pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Dart
-        uses: dart-lang/setup-dart@v1
-      # Make sure the stable version of Flutter is available
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
         with:
-          channel: "stable"
-          architecture: x64
+          flutter-version: '3.24.5'
+          channel: 'stable'
           cache: true
-      # Download all Flutter packages
-      - name: Download dependencies
+      - name: Flutter dependencies
         run: flutter pub get
-      # Publish the package
-      - name: Publish package
-        run: dart pub publish -v -f
+      - name: Create publishing token
+        run: |
+          set -eo pipefail
+          PUB_TOKEN=$(curl --retry 5 --retry-connrefused -sLS "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=https://pub.dev" -H "User-Agent: actions/oidc-client" -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" | jq -r '.value')
+          echo "PUB_TOKEN=${PUB_TOKEN}" >> $GITHUB_ENV
+          export PUB_TOKEN
+          flutter pub token add https://pub.dev --env-var PUB_TOKEN
+      - name: Publish - dry run
+        run: flutter pub publish --dry-run
+      - name: Publish to pub.dev
+        run: flutter pub publish -f

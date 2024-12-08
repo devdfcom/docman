@@ -34,7 +34,7 @@ topics:
 
 screenshots:
   - description: The docman logo.
-    path: example/assets/images/png_example.png
+    path: example/assets/images/jpeg_example.jpg
 
 funding:
   - https://github.com/sponsors/devdfcom
