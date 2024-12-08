@@ -4,10 +4,10 @@
     <img src="https://github.com/user-attachments/assets/1f19d8af-3547-4825-836d-a596d5b16cf9" alt="DocMan logo" title="DocMan" align="right" height="150" />
 </a>
 
-[![pub package](https://img.shields.io/pub/v/docman.svg?logo=flutter&color=%23007bff&style=flat)](https://pub.dev/packages/docman)
+[![pub package](https://img.shields.io/pub/v/docman.svg?logo=flutter&color=dodgerblue&style=flat)](https://pub.dev/packages/docman)
 [![License: MIT](https://img.shields.io/github/license/devdfcom/docman?style=flat&color=mediumseagreen)](https://opensource.org/licenses/MIT)
-[![Request a feature](https://img.shields.io/badge/Request-Feature-%23009688?style=flat)](https://github.com/devdfcom/docman/discussions/new?category=ideas)
-[![Ask a question](https://img.shields.io/badge/Ask-Question-%2324a0ed?style=flat)](https://github.com/devdfcom/docman/discussions/new/choose)
+[![Request a feature](https://img.shields.io/badge/Request-Feature-teal?style=flat)](https://github.com/devdfcom/docman/discussions/new?category=ideas)
+[![Ask a question](https://img.shields.io/badge/Ask-Question-royalblue?style=flat)](https://github.com/devdfcom/docman/discussions/new/choose)
 [![Report a bug](https://img.shields.io/badge/Report-Bug-indianred?style=flat)](https://github.com/devdfcom/docman/issues/new?labels=bug&projects=&template=bug_report.yml&title=%3Ctitle%3E)
 
 A Flutter plugin that simplifies file & directory operations on Android devices.
