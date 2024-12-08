@@ -1,0 +1,8 @@
+title: "[IMPROVEMENT] <title>"
+labels: ["enhancement"]
+body:
+  - type: textarea
+    attributes:
+      label: Describe the Improvement
+    validations:
+      required: true

@@ -1,0 +1,86 @@
+name: Bug 🐞
+description: File a bug/issue
+title: "<title>"
+labels: [ "bug" ]
+body:
+  - type: markdown
+    attributes:
+      value: "**Issue tracker is ONLY used for reporting bugs. New features should be discussed in the [Discussions](../discussions) tab!**"
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue or discussion for this?
+      description: Please check whether an issue or discussion already exists for the bug that occurred.
+      options:
+        - label: I have searched the existing issues & discussions
+          required: true
+  - type: textarea
+    attributes:
+      label: Primary Information
+      description: |
+        Common info:
+          - **Flutter**: 2.5.2
+          - **Dart**: 2.14.3
+          - **DocMan version**: 1.0.0
+        Android information: 
+          - **OS**: Android 11
+          - **Device**: Pixel 5
+          - **ROM**: PixelExperience
+      value: |
+        - Flutter: v3.3.0
+        - Dart: v3.5.2
+        - DocMan version: 1.0.0
+        - OS: Android 14
+        - Device: Pixel 6
+        - ROM: Stock
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what should happen.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Current/Actual Behavior
+      description: A clear and concise description of what happens instead of the expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior. Include code, if relevant.
+      placeholder: |
+        1. Tap '...'
+        2. Action '...'
+        3. Run '...'
+        4. See error...
+        ...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional Context
+      description: |
+        How has this bug affected you?
+        
+        What are you trying to accomplish?
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Possible Solution
+      description: |
+        If you know why the bug occurs, please add a solution.
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Debug Information, Screenshots
+      description: |
+        Add logs, stacktrace, screenshots to help explain your problem.
+        
+        Tip: You can attach images or log files by clicking this area to highlight it and then dragging files in.
+    validations:
+      required: false

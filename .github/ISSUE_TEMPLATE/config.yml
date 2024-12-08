@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Request a feature 🚀
+    url: https://github.com/devdfcom/docman/discussions/new?category=ideas
+    about: Share ideas for new features.
+  - name: Ask the community 👥
+    url: https://github.com/devdfcom/docman/discussions
+    about: Ask and answer questions here.
+  - name: Report a security issue 🚨
+    url: https://github.com/devdfcom/docman/security/policy
+    about: Learn how to report sensitive bugs.

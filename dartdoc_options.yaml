@@ -1,0 +1,20 @@
+dartdoc:
+  categories:
+    "DocMan":
+      markdown: example/assets/docs/docman.md
+    "Permissions":
+      markdown: example/assets/docs/permissions.md
+    "DocumentFile":
+      markdown: example/assets/docs/documentfile.md
+    "Exceptions":
+      markdown: example/assets/docs/exceptions.md
+  categoryOrder:
+    - "DocMan"
+    - "Permissions"
+    - "DocumentFile"
+    - "Exceptions"
+  showUndocumentedCategories: true
+  favicon: example/assets/images/favicon/android-chrome-192x192.png
+  footerText: [ example/assets/docs/sample.txt ]
+
+
