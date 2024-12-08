@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// A class representing a `DocumentFile` on dart side.
+///
 /// {@category DocumentFile}
 @immutable
 class DocumentFile {
