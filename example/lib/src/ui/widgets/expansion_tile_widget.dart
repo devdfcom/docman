@@ -63,11 +63,14 @@ class _ExpansionTileWidgetState extends State<ExpansionTileWidget> {
         subtitle: widget.subTitle,
         dense: true,
         showTrailingIcon: !widget.hideTrailing,
-        controlAffinity: widget.controlsOnLeft ? ListTileControlAffinity.leading : ListTileControlAffinity.trailing,
+        controlAffinity: widget.controlsOnLeft
+            ? ListTileControlAffinity.leading
+            : ListTileControlAffinity.trailing,
         leading: widget.controlsOnLeft ? null : actionWidget,
         trailing: widget.controlsOnLeft ? actionWidget : null,
         visualDensity: VisualDensity.compact,
-        childrenPadding: widget.childrenPadding ?? EdgeInsets.symmetric(horizontal: 10),
+        childrenPadding:
+            widget.childrenPadding ?? EdgeInsets.symmetric(horizontal: 10),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         expandedAlignment: Alignment.centerLeft,
         expandedCrossAxisAlignment: CrossAxisAlignment.start,

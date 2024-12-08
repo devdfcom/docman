@@ -23,7 +23,8 @@ class DocumentThumbnail {
   });
 
   /// Creates a [DocumentThumbnail] instance from a map.
-  factory DocumentThumbnail.fromMap(Map<String, dynamic> map) => DocumentThumbnail(
+  factory DocumentThumbnail.fromMap(Map<String, dynamic> map) =>
+      DocumentThumbnail(
         bytes: map['bytes'] as Uint8List,
         width: map['width'] as int,
         height: map['height'] as int,
@@ -37,12 +38,16 @@ class DocumentThumbnail {
       };
 
   @override
-  String toString() => 'DocumentThumbnail(bytes: $bytes, width: $width, height: $height)';
+  String toString() =>
+      'DocumentThumbnail(bytes: $bytes, width: $width, height: $height)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is DocumentThumbnail && other.bytes == bytes && other.width == width && other.height == height;
+    return other is DocumentThumbnail &&
+        other.bytes == bytes &&
+        other.width == width &&
+        other.height == height;
   }
 
   @override

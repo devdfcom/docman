@@ -8,7 +8,8 @@ class DocManExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MediaQuery(
-        data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+        data:
+            MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
         child: MaterialApp(
           navigatorKey: AppRouter.navigatorKey,
           scaffoldMessengerKey: ToastHelper.messengerKey,
@@ -16,11 +17,14 @@ class DocManExample extends StatelessWidget {
           themeMode: ThemeMode.dark,
           darkTheme: ThemeData.dark().copyWith(
             primaryColor: Colors.blue,
-            appBarTheme: ThemeData.dark().appBarTheme.copyWith(scrolledUnderElevation: 0.0),
+            appBarTheme: ThemeData.dark()
+                .appBarTheme
+                .copyWith(scrolledUnderElevation: 0.0),
             chipTheme: ThemeData.dark().chipTheme.copyWith(
                   backgroundColor: Colors.transparent,
                   selectedColor: Colors.blue.shade900,
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                   labelPadding: EdgeInsets.zero,
                   showCheckmark: false,
                 ),

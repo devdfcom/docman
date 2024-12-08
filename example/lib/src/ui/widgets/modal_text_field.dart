@@ -54,15 +54,19 @@ class _ModalTextFieldState extends State<ModalTextField> {
     super.dispose();
   }
 
-  bool get _isValid => widget.canBeEmpty ? true : controller.value.text.isNotEmpty;
+  bool get _isValid =>
+      widget.canBeEmpty ? true : controller.value.text.isNotEmpty;
 
-  TextInputFormatter? get _textOnly =>
-      widget.textOnly ? FilteringTextInputFormatter.allow(RegExp("[a-zA-Zа-яА-Я .]")) : null;
+  TextInputFormatter? get _textOnly => widget.textOnly
+      ? FilteringTextInputFormatter.allow(RegExp("[a-zA-Zа-яА-Я .]"))
+      : null;
 
-  TextInputFormatter? get _numbersOnly => widget.numbersOnly ? FilteringTextInputFormatter.digitsOnly : null;
+  TextInputFormatter? get _numbersOnly =>
+      widget.numbersOnly ? FilteringTextInputFormatter.digitsOnly : null;
 
-  TextInputFormatter? get _maxLength =>
-      widget.maxLength != null ? LengthLimitingTextInputFormatter(widget.maxLength) : null;
+  TextInputFormatter? get _maxLength => widget.maxLength != null
+      ? LengthLimitingTextInputFormatter(widget.maxLength)
+      : null;
 
   ///Collecting all TextInputFormatters in list even with null & filter those.
   List<TextInputFormatter> get _inputFormatters => [
@@ -77,7 +81,9 @@ class _ModalTextFieldState extends State<ModalTextField> {
       ? Icon(
           widget.leftIcon,
           size: 32,
-          color: _isValid ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.error,
+          color: _isValid
+              ? Theme.of(context).colorScheme.secondary
+              : Theme.of(context).colorScheme.error,
         )
       : SizedBox(width: 5);
 
@@ -86,11 +92,14 @@ class _ModalTextFieldState extends State<ModalTextField> {
         child: IconButton(
           onPressed: _isValid ? _submit : null,
           style: IconButton.styleFrom(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0)),
           ),
           icon: Icon(
             _isValid ? Icons.done_all_outlined : Icons.close,
-            color: _isValid ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.error,
+            color: _isValid
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.error,
             size: 32,
           ),
         ),
@@ -108,7 +117,8 @@ class _ModalTextFieldState extends State<ModalTextField> {
           onSubmitted: _isValid ? (value) => _submit() : null,
 
           inputFormatters: _inputFormatters,
-          keyboardType: widget.keyboardType ?? (widget.numbersOnly ? TextInputType.number : null),
+          keyboardType: widget.keyboardType ??
+              (widget.numbersOnly ? TextInputType.number : null),
           keyboardAppearance: Brightness.dark,
           textInputAction: TextInputAction.done,
           textCapitalization: widget.textCapitalization,

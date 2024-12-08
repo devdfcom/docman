@@ -18,13 +18,20 @@ class ParamBool extends StatelessWidget {
 
   Widget _subTitleWidget(BuildContext context) => Text(
         subTitle!,
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white70),
+        style: Theme.of(context)
+            .textTheme
+            .bodySmall
+            ?.copyWith(color: Colors.white70),
       );
 
   @override
   Widget build(BuildContext context) => ListTile(
         onTap: disabled ? null : () => onUpdate(!value),
-        title: Text(title, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500)),
+        title: Text(title,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(fontWeight: FontWeight.w500)),
         subtitle: subTitle != null ? _subTitleWidget(context) : null,
         trailing: Transform.scale(
           alignment: Alignment.centerRight,

@@ -33,7 +33,8 @@ enum AppDir {
 
   /// Get AppDir from a string value, if not found, return [AppDir.cache].
   static AppDir fromString(String value) =>
-      AppDir.values.firstWhere((e) => e.name.toLowerCase() == value, orElse: () => AppDir.cache);
+      AppDir.values.firstWhere((e) => e.name.toLowerCase() == value,
+          orElse: () => AppDir.cache);
 
   /// Get Path of the AppDir.
   Future<String?> getPath() => _onMethodResult<String>(_args('path'));
@@ -46,7 +47,8 @@ enum AppDir {
   /// in external & internal cache directories if exists.
   ///
   /// Returns `true` if the directory was cleared successfully, otherwise `false`.
-  Future<bool> clear() async => await _onMethodResult<bool>(_args('clear')) ?? false;
+  Future<bool> clear() async =>
+      await _onMethodResult<bool>(_args('clear')) ?? false;
 
   /// Get [Directory] by path
   Future<Directory?> asDir() async {
@@ -56,7 +58,9 @@ enum AppDir {
 
   String get _methodName => 'appdirs';
 
-  Map<String, dynamic> _args(String action) => <String, dynamic>{'dir': name.toLowerCase(), 'action': action};
+  Map<String, dynamic> _args(String action) =>
+      <String, dynamic>{'dir': name.toLowerCase(), 'action': action};
 
-  Future<T?> _onMethodResult<T>([dynamic args]) => ActionChannel.instance.call<T>(_methodName, args);
+  Future<T?> _onMethodResult<T>([dynamic args]) =>
+      ActionChannel.instance.call<T>(_methodName, args);
 }

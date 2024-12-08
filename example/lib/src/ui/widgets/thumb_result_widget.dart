@@ -20,14 +20,16 @@ class ThumbResultWidget extends StatefulWidget {
   State<ThumbResultWidget> createState() => _ThumbResultWidgetState();
 }
 
-class _ThumbResultWidgetState extends State<ThumbResultWidget> with AutomaticKeepAliveClientMixin {
+class _ThumbResultWidgetState extends State<ThumbResultWidget>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
   ///Converts any [double, int] size like width or height
   ///to logical pixels - by Device Pixel Ratio from [MediaQuery]
   ///Used to get proper size for images for example
-  int _asDPR(int size) => (size * MediaQuery.devicePixelRatioOf(context)).toInt();
+  int _asDPR(int size) =>
+      (size * MediaQuery.devicePixelRatioOf(context)).toInt();
 
   ///Used like this to prevent blurry images
   double get _containerWidth => (widget.maxWidth / 2);
@@ -50,14 +52,17 @@ class _ThumbResultWidgetState extends State<ThumbResultWidget> with AutomaticKee
       foregroundDecoration: image != null
           ? BoxDecoration(
               image: DecorationImage(
-                image: ResizeImage.resizeIfNeeded(_asDPR(widget.maxWidth.toInt()), null, image),
+                image: ResizeImage.resizeIfNeeded(
+                    _asDPR(widget.maxWidth.toInt()), null, image),
                 fit: BoxFit.cover,
                 filterQuality: FilterQuality.high,
               ),
               borderRadius: BorderRadius.circular(10),
             )
           : null,
-      child: imageData == null ? const Center(child: CircularProgressIndicator()) : null,
+      child: imageData == null
+          ? const Center(child: CircularProgressIndicator())
+          : null,
     );
   }
 
@@ -75,7 +80,8 @@ class _ThumbResultWidgetState extends State<ThumbResultWidget> with AutomaticKee
           const SizedBox(height: 5),
           MethodApiWidget(
             MethodApiEntry(
-              result: 'DocumentThumbnail(width: ${imageData.width}, height: ${imageData.height})',
+              result:
+                  'DocumentThumbnail(width: ${imageData.width}, height: ${imageData.height})',
             ),
             endDivider: false,
           ),
@@ -88,8 +94,11 @@ class _ThumbResultWidgetState extends State<ThumbResultWidget> with AutomaticKee
           ),
         ];
 
-  Widget _snapshotByState(AsyncSnapshot snapshot) => switch (snapshot.connectionState) {
-        ConnectionState.done => snapshot.hasData ? _imageContainer(imageData: snapshot.data) : _errorContainer,
+  Widget _snapshotByState(AsyncSnapshot snapshot) =>
+      switch (snapshot.connectionState) {
+        ConnectionState.done => snapshot.hasData
+            ? _imageContainer(imageData: snapshot.data)
+            : _errorContainer,
         _ => _imageContainer(imageData: snapshot.data)
       };
 
@@ -97,13 +106,16 @@ class _ThumbResultWidgetState extends State<ThumbResultWidget> with AutomaticKee
   Widget build(BuildContext context) {
     super.build(context);
     return FutureBuilder(
-        future: Future.delayed(const Duration(seconds: 2), () => widget.getThumb),
+        future:
+            Future.delayed(const Duration(seconds: 2), () => widget.getThumb),
         builder: (context, snapshot) => Container(
               padding: EdgeInsets.zero,
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                _snapshotByState(snapshot),
-                ..._metaData(snapshot.data),
-              ]),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _snapshotByState(snapshot),
+                    ..._metaData(snapshot.data),
+                  ]),
             ));
   }
 }

@@ -18,10 +18,15 @@ class PersistedPermission {
   final int time;
 
   /// Constructs a [PersistedPermission] instance.
-  const PersistedPermission({required this.uri, this.read = false, this.write = false, this.time = 0});
+  const PersistedPermission(
+      {required this.uri,
+      this.read = false,
+      this.write = false,
+      this.time = 0});
 
   /// Creates a [PersistedPermission] instance from a map.
-  factory PersistedPermission.fromMap(Map<String, dynamic> map) => PersistedPermission(
+  factory PersistedPermission.fromMap(Map<String, dynamic> map) =>
+      PersistedPermission(
         uri: map['uri'] as String,
         read: map['read'] as bool,
         write: map['write'] as bool,
@@ -29,7 +34,8 @@ class PersistedPermission {
       );
 
   /// The date when the permission was granted.
-  DateTime? get date => time > 0 ? DateTime.fromMillisecondsSinceEpoch(time) : null;
+  DateTime? get date =>
+      time > 0 ? DateTime.fromMillisecondsSinceEpoch(time) : null;
 
   /// Releases the permission.
   Future<bool> release() => DocMan.perms.release(uri);
@@ -43,7 +49,8 @@ class PersistedPermission {
       };
 
   @override
-  String toString() => 'PersistedPermission(uri: $uri, read: $read, write: $write, time: $time, date: $date)';
+  String toString() =>
+      'PersistedPermission(uri: $uri, read: $read, write: $write, time: $time, date: $date)';
 
   @override
   bool operator ==(Object other) =>

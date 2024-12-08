@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ListTileHeaderDense extends StatelessWidget {
-  const ListTileHeaderDense({required this.title, this.icon, this.paddingX = 5.0, super.key});
+  const ListTileHeaderDense(
+      {required this.title, this.icon, this.paddingX = 5.0, super.key});
 
   final String title;
   final IconData? icon;
@@ -16,7 +17,8 @@ class ListTileHeaderDense extends StatelessWidget {
                 )),
         // tileColor: Colors.black,
         dense: true,
-        leading: icon != null ? Icon(icon, size: 16, color: Colors.white70) : null,
+        leading:
+            icon != null ? Icon(icon, size: 16, color: Colors.white70) : null,
         visualDensity: VisualDensity.compact.copyWith(vertical: -4.0),
         contentPadding: EdgeInsets.symmetric(horizontal: paddingX),
         horizontalTitleGap: 4.0,
@@ -25,7 +27,12 @@ class ListTileHeaderDense extends StatelessWidget {
 }
 
 class ListTileDense extends StatelessWidget {
-  const ListTileDense({this.title, this.subTitle, this.fitLine = false, this.trailing, super.key});
+  const ListTileDense(
+      {this.title,
+      this.subTitle,
+      this.fitLine = false,
+      this.trailing,
+      super.key});
 
   final String? title;
   final String? subTitle;
@@ -36,8 +43,10 @@ class ListTileDense extends StatelessWidget {
 
   Widget get _subTitleSimple => Text(subTitle!, style: TextStyle(fontSize: 11));
 
-  Widget get _subTitleFitted =>
-      FittedBox(alignment: Alignment.centerLeft, fit: BoxFit.scaleDown, child: Text(subTitle!));
+  Widget get _subTitleFitted => FittedBox(
+      alignment: Alignment.centerLeft,
+      fit: BoxFit.scaleDown,
+      child: Text(subTitle!));
 
   Widget get _subTitleWidget => fitLine ? _subTitleFitted : _subTitleSimple;
 
@@ -70,7 +79,8 @@ class ListHeader extends StatelessWidget {
     this.padValue,
     this.toUpperCase = false,
     super.key,
-  }) : assert(onlyBottomPadding || verticalPadding, 'onlyBottomPadding or verticalPadding must be true');
+  }) : assert(onlyBottomPadding || verticalPadding,
+            'onlyBottomPadding or verticalPadding must be true');
 
   const ListHeader.vertical({
     required this.text,
@@ -115,8 +125,9 @@ class ListHeader extends StatelessWidget {
 
   double get _padValue => padValue ?? 8.0;
 
-  EdgeInsets get _padding =>
-      verticalPadding ? EdgeInsets.symmetric(vertical: _padValue) : EdgeInsets.only(bottom: _padValue);
+  EdgeInsets get _padding => verticalPadding
+      ? EdgeInsets.symmetric(vertical: _padValue)
+      : EdgeInsets.only(bottom: _padValue);
 
   @override
   Widget build(BuildContext context) => Container(

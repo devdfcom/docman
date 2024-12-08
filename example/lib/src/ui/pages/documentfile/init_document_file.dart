@@ -70,10 +70,12 @@ class _InitDocumentFileState extends State<InitDocumentFile> {
     }
   }
 
-  void resetState() => setState(() => _localFileName = _localDirectoryName = _localDirectoryInit = null);
+  void resetState() => setState(
+      () => _localFileName = _localDirectoryName = _localDirectoryInit = null);
 
   MethodApiEntry _exceptionEntry(Object e) => MethodApiEntry(
-        title: '${e.runtimeType}: ${e is DocManException ? e.code : e is PlatformException ? e.code : ''}',
+        title:
+            '${e.runtimeType}: ${e is DocManException ? e.code : e is PlatformException ? e.code : ''}',
         subTitle: 'Exception caught while picking files',
         result: e is AssertionError ? e.message.toString() : e.toString(),
         isResultOk: false,
@@ -96,7 +98,9 @@ class _InitDocumentFileState extends State<InitDocumentFile> {
           name: 'DocMan.pick.directory()',
           title: exception != null
               ? exception.title
-              : (dir != null ? 'Directory: ${dir.name}' : 'Directory was not picked'),
+              : (dir != null
+                  ? 'Directory: ${dir.name}'
+                  : 'Directory was not picked'),
           subTitle: exception?.subTitle,
           isResultOk: exception == null && dir != null,
           result: exception?.result ?? dir?.toString(),
@@ -110,7 +114,9 @@ class _InitDocumentFileState extends State<InitDocumentFile> {
     MethodApiEntry? exception;
 
     try {
-      doc = await DocMan.pick.documents().then((list) => list.isNotEmpty ? list.first : null, onError: (e) => null);
+      doc = await DocMan.pick.documents().then(
+          (list) => list.isNotEmpty ? list.first : null,
+          onError: (e) => null);
     } catch (e) {
       exception = _exceptionEntry(e);
     }
@@ -134,7 +140,10 @@ class _InitDocumentFileState extends State<InitDocumentFile> {
   }
 
   Future<String> _getFilePath() async {
-    final filePath = [_directoryFromString(_localDirectoryName!).path, _localFileName].join(Platform.pathSeparator);
+    final filePath = [
+      _directoryFromString(_localDirectoryName!).path,
+      _localFileName
+    ].join(Platform.pathSeparator);
     final file = File(filePath);
     if (!(await file.exists())) {
       if (_localFileName == 'sample.txt') {
@@ -175,7 +184,9 @@ class _InitDocumentFileState extends State<InitDocumentFile> {
       widget.onResult([
         MethodApiEntry(
           name: 'DocumentFile(uri: $filePath).get()',
-          title: exception != null ? exception.title : 'DocumentFile: ${doc?.name}',
+          title: exception != null
+              ? exception.title
+              : 'DocumentFile: ${doc?.name}',
           subTitle: exception?.subTitle,
           result: exception?.result ?? doc?.toString(),
           isResultOk: exception == null && doc != null,
@@ -203,7 +214,9 @@ class _InitDocumentFileState extends State<InitDocumentFile> {
       widget.onResult([
         MethodApiEntry(
           name: 'DocumentFile(uri: $dirPath).get()',
-          title: exception != null ? exception.title : 'DocumentFile: ${doc?.name}',
+          title: exception != null
+              ? exception.title
+              : 'DocumentFile: ${doc?.name}',
           subTitle: exception?.subTitle,
           result: exception?.result ?? doc?.toString(),
           isResultOk: exception == null && doc != null,
@@ -239,24 +252,35 @@ class _InitDocumentFileState extends State<InitDocumentFile> {
       );
 
   Widget get _fromFilePanel => ExpansionTileWidget(
-        title: _localFileName != null ? 'From file $_localFileName' : 'From local file',
-        subTitle: Text(
-            _localDirectoryName != null ? 'Initialized from $_localDirectoryName' : 'Initialize from local file path'),
-        action: _localFileName != null && _localDirectoryName != null ? _fromFilePath : null,
+        title: _localFileName != null
+            ? 'From file $_localFileName'
+            : 'From local file',
+        subTitle: Text(_localDirectoryName != null
+            ? 'Initialized from $_localDirectoryName'
+            : 'Initialize from local file path'),
+        action: _localFileName != null && _localDirectoryName != null
+            ? _fromFilePath
+            : null,
         children: [
           ParamChipsSelector(
-            title: _localDirectoryName != null ? 'From: $_localDirectoryName' : 'Select Directory',
+            title: _localDirectoryName != null
+                ? 'From: $_localDirectoryName'
+                : 'Select Directory',
             hideParam: true,
             available: _exampleDirectories,
             selected: _localDirectoryName != null ? [_localDirectoryName!] : [],
-            onUpdate: (value) => setState(() => _localDirectoryName = value.isNotEmpty ? value.last : null),
+            onUpdate: (value) => setState(() =>
+                _localDirectoryName = value.isNotEmpty ? value.last : null),
           ),
           ParamChipsSelector(
-            title: _localFileName != null ? 'File: $_localFileName' : 'Select File type',
+            title: _localFileName != null
+                ? 'File: $_localFileName'
+                : 'Select File type',
             hideParam: true,
             available: exampleFileNames,
             selected: _localFileName != null ? [_localFileName!] : [],
-            onUpdate: (value) => setState(() => _localFileName = value.isNotEmpty ? value.last : null),
+            onUpdate: (value) => setState(
+                () => _localFileName = value.isNotEmpty ? value.last : null),
           ),
         ],
       );
@@ -274,15 +298,19 @@ class _InitDocumentFileState extends State<InitDocumentFile> {
             Divider(height: 5),
             //3. Init Document - from Local directory
             ParamChipsSelector(
-              title: _localDirectoryInit != null ? 'From: $_localDirectoryInit' : 'From App Directory',
+              title: _localDirectoryInit != null
+                  ? 'From: $_localDirectoryInit'
+                  : 'From App Directory',
               subTitle: Text(_localDirectoryInit != null
                   ? 'Initialized from $_localDirectoryInit path'
                   : 'Initialize as local directory'),
               action: _localDirectoryInit != null ? _fromLocalDirectory : null,
               hideParam: true,
               available: _exampleDirectories,
-              selected: _localDirectoryInit != null ? [_localDirectoryInit!] : [],
-              onUpdate: (value) => setState(() => _localDirectoryInit = value.isNotEmpty ? value.last : null),
+              selected:
+                  _localDirectoryInit != null ? [_localDirectoryInit!] : [],
+              onUpdate: (value) => setState(() =>
+                  _localDirectoryInit = value.isNotEmpty ? value.last : null),
             ),
           ],
         ),

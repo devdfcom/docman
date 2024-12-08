@@ -101,7 +101,9 @@ class DocumentFile {
 
   /// Returns the last modified date and time of the document.
   /// If the last modified date is not available, this will be `null`.
-  DateTime? get lastModifiedDate => lastModified == 0 ? null : DateTime.fromMillisecondsSinceEpoch(lastModified);
+  DateTime? get lastModifiedDate => lastModified == 0
+      ? null
+      : DateTime.fromMillisecondsSinceEpoch(lastModified);
 
   /// Converts the [DocumentFile] instance to a map.
   Map<String, dynamic> toMap() => <String, dynamic>{
@@ -120,7 +122,8 @@ class DocumentFile {
       };
 
   @override
-  String toString() => 'DocumentFile(name: $name, type: $type, uri: $uri, size: $size, lastModified: $lastModified,'
+  String toString() =>
+      'DocumentFile(name: $name, type: $type, uri: $uri, size: $size, lastModified: $lastModified,'
       ' lastModifiedDate: $lastModifiedDate, exists: $exists, isDirectory: $isDirectory, isFile: $isFile, '
       'canRead: $canRead, canWrite: $canWrite, canDelete: $canDelete, canCreate: $canCreate, '
       'canThumbnail: $canThumbnail)';

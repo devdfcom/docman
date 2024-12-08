@@ -6,7 +6,12 @@ class ClearableWidget extends StatelessWidget {
   final bool enabled;
   final String? tooltip;
 
-  const ClearableWidget({required this.child, this.onClear, this.enabled = true, this.tooltip, super.key});
+  const ClearableWidget(
+      {required this.child,
+      this.onClear,
+      this.enabled = true,
+      this.tooltip,
+      super.key});
 
   @override
   Widget build(BuildContext context) => Stack(children: [

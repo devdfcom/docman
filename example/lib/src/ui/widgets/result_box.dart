@@ -9,9 +9,13 @@ class ResultBox extends StatelessWidget {
   final List<Widget> children;
   final VoidCallback? onClear;
 
-  factory ResultBox.fromMethods(List<MethodApiEntry> methods, {Widget? header, VoidCallback? onClear}) => ResultBox(
+  factory ResultBox.fromMethods(List<MethodApiEntry> methods,
+          {Widget? header, VoidCallback? onClear}) =>
+      ResultBox(
         onClear: onClear,
-        children: [header, ...methods.map((m) => MethodApiWidget(m))].nonNulls.toList(),
+        children: [header, ...methods.map((m) => MethodApiWidget(m))]
+            .nonNulls
+            .toList(),
       );
 
   List<Widget> _defaultList() => <Widget>[

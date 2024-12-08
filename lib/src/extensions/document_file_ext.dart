@@ -21,7 +21,8 @@ extension DocumentFileActionsExt on DocumentFile {
   Future<DocumentFile?> get() => DocumentFileMethods(this).get();
 
   /// Requests the permissions status for the file or directory.
-  Future<PersistedPermission?> permissions() => DocumentFileMethods(this).permissions();
+  Future<PersistedPermission?> permissions() =>
+      DocumentFileMethods(this).permissions();
 
   /// Read the document content as bytes.
   ///
@@ -37,7 +38,8 @@ extension DocumentFileActionsExt on DocumentFile {
   ///
   /// - [name] Directory name, must not be empty.
   /// Returns [DocumentFile] of the created directory, or null if something went wrong.
-  Future<DocumentFile?> createDirectory(String name) => DocumentFileMethods(this).createDirectory(name);
+  Future<DocumentFile?> createDirectory(String name) =>
+      DocumentFileMethods(this).createDirectory(name);
 
   /// Create a file in the current directory.
   ///
@@ -55,8 +57,10 @@ extension DocumentFileActionsExt on DocumentFile {
   /// If both [content] and [bytes] are provided, [bytes] will be used.
   ///
   /// Returns [DocumentFile] of the created file, or null if something went wrong.
-  Future<DocumentFile?> createFile({required String name, String? content, Uint8List? bytes}) =>
-      DocumentFileMethods(this).createFile(name: name, content: content, bytes: bytes);
+  Future<DocumentFile?> createFile(
+          {required String name, String? content, Uint8List? bytes}) =>
+      DocumentFileMethods(this)
+          .createFile(name: name, content: content, bytes: bytes);
 
   /// List the documents in the directory.
   ///
@@ -76,7 +80,10 @@ extension DocumentFileActionsExt on DocumentFile {
     List<String> extensions = const [],
     String? nameContains,
   }) =>
-      DocumentFileMethods(this).list(mimeTypes: mimeTypes, extensions: extensions, nameContains: nameContains);
+      DocumentFileMethods(this).list(
+          mimeTypes: mimeTypes,
+          extensions: extensions,
+          nameContains: nameContains);
 
   /// Find the document in the directory.
   ///
@@ -88,7 +95,8 @@ extension DocumentFileActionsExt on DocumentFile {
   /// Cannot be empty.
   ///
   /// Returns [DocumentFile] of the found document, or null if not found.
-  Future<DocumentFile?> find(String name) => DocumentFileMethods(this).find(name);
+  Future<DocumentFile?> find(String name) =>
+      DocumentFileMethods(this).find(name);
 
   /// Copy document to temporary cache directory.
   ///
@@ -103,7 +111,8 @@ extension DocumentFileActionsExt on DocumentFile {
   /// First it will try to copy to external cache directory, if not available, then to internal cache directory.
   /// It's your responsibility to move the file to the permanent location if needed,
   /// otherwise, it will be deleted when the app is closed/destroyed.
-  Future<File?> cache({int imageQuality = 100}) => DocumentFileMethods(this).cache();
+  Future<File?> cache({int imageQuality = 100}) =>
+      DocumentFileMethods(this).cache();
 
   /// Copy the document to directory.
   ///
@@ -136,7 +145,8 @@ extension DocumentFileActionsExt on DocumentFile {
   /// Automatically deletes created document if the move was not successful.
   /// Remember, after moving the document, the current document will delete itself.
   Future<DocumentFile?> moveTo(String uri, {String? name}) =>
-      DocumentFileMethods(this).saveToDirectory(uri, name: name, deleteSource: true);
+      DocumentFileMethods(this)
+          .saveToDirectory(uri, name: name, deleteSource: true);
 
   /// Delete the document (file or directory).
   ///
@@ -173,8 +183,8 @@ extension DocumentFileActionsExt on DocumentFile {
     bool png = false,
     bool webp = false,
   }) =>
-      DocumentFileMethods(this)
-          .getThumbnail<DocumentThumbnail>(width: width, height: height, quality: quality, png: png, webp: webp);
+      DocumentFileMethods(this).getThumbnail<DocumentThumbnail>(
+          width: width, height: height, quality: quality, png: png, webp: webp);
 
   /// Get the thumbnail file of the document.
   ///
@@ -205,8 +215,8 @@ extension DocumentFileActionsExt on DocumentFile {
     bool png = false,
     bool webp = false,
   }) =>
-      DocumentFileMethods(this)
-          .getThumbnail<File>(width: width, height: height, quality: quality, png: png, webp: webp);
+      DocumentFileMethods(this).getThumbnail<File>(
+          width: width, height: height, quality: quality, png: png, webp: webp);
 
 // Rename the document (Directory or File).
 //
@@ -255,7 +265,8 @@ extension DocumentFileActivityExt on DocumentFile {
     bool localOnly = false,
     bool deleteSource = false,
   }) =>
-      DocumentFileMethods(this).saveTo(initDir: initDir, localOnly: localOnly, deleteSource: deleteSource);
+      DocumentFileMethods(this).saveTo(
+          initDir: initDir, localOnly: localOnly, deleteSource: deleteSource);
 }
 
 /// Contains all supported methods which use `Events` channel (Streams) for [DocumentFile] class.
@@ -277,7 +288,8 @@ extension DocumentFileEventsExt on DocumentFile {
     int start = 0,
     String charset = 'UTF-8',
   }) =>
-      DocumentFileMethods(this).readAsString(charset, bufferSize: bufferSize, start: start);
+      DocumentFileMethods(this)
+          .readAsString(charset, bufferSize: bufferSize, start: start);
 
   /// Read the document content as bytes stream.
   ///
@@ -289,7 +301,8 @@ extension DocumentFileEventsExt on DocumentFile {
   ///
   /// Returns a stream of bytes
   Stream<Uint8List> readAsBytes({int? bufferSize, int start = 0}) =>
-      DocumentFileMethods(this).readAsBytes(bufferSize: bufferSize, start: start);
+      DocumentFileMethods(this)
+          .readAsBytes(bufferSize: bufferSize, start: start);
 
   /// List the documents in the directory.
   ///
@@ -299,5 +312,8 @@ extension DocumentFileEventsExt on DocumentFile {
     List<String> extensions = const [],
     String? nameContains,
   }) =>
-      DocumentFileMethods(this).listStream(mimeTypes: mimeTypes, extensions: extensions, nameContains: nameContains);
+      DocumentFileMethods(this).listStream(
+          mimeTypes: mimeTypes,
+          extensions: extensions,
+          nameContains: nameContains);
 }

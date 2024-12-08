@@ -14,7 +14,8 @@ class DocManPicker {
   /// This is optional, must be a valid string representation of `tree Uri` - directory uri.
   ///
   /// Returns a [DocumentFile] representing the picked directory.
-  Future<DocumentFile?> directory({String? initDir}) => Picker(type: PickType.directory, initDir: initDir).directory();
+  Future<DocumentFile?> directory({String? initDir}) =>
+      Picker(type: PickType.directory, initDir: initDir).directory();
 
   /// Pick document(s).
   ///
@@ -200,7 +201,9 @@ class DocManPicker {
     bool limitResultRestart = false,
     String? limitRestartToastText,
   }) {
-    assert(mimeTypes.isEmpty || mimeTypes.every((m) => m.startsWith(RegExp('image|video'))),
+    assert(
+        mimeTypes.isEmpty ||
+            mimeTypes.every((m) => m.startsWith(RegExp('image|video'))),
         'mimeTypes can starts only with "image/" or "video/"');
     return Picker(
       type: PickType.media,
@@ -214,7 +217,8 @@ class DocManPicker {
         restart: limitResultRestart,
         toastText: limitRestartToastText,
       ),
-      media: _media(quality: imageQuality, useVisualMediaPicker: useVisualMediaPicker),
+      media: _media(
+          quality: imageQuality, useVisualMediaPicker: useVisualMediaPicker),
     ).files();
   }
 
@@ -260,7 +264,9 @@ class DocManPicker {
     return PickLimit(limit, type: limitResult, toastText: toastText);
   }
 
-  PickTypeFilter _filter({List<String> mimeTypes = const [], List<String> extensions = const []}) =>
+  PickTypeFilter _filter(
+          {List<String> mimeTypes = const [],
+          List<String> extensions = const []}) =>
       PickTypeFilter(mimeTypes: mimeTypes, extensions: extensions);
 
   PickMedia _media({int quality = 100, bool useVisualMediaPicker = true}) =>

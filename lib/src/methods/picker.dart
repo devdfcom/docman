@@ -52,7 +52,8 @@ class PickLimit {
   final String? toastText;
 
   ///Creates a new instance of [PickLimit]
-  const PickLimit(this.limit, {PickLimitResult? type, this.toastText}) : type = type ?? PickLimitResult.limited;
+  const PickLimit(this.limit, {PickLimitResult? type, this.toastText})
+      : type = type ?? PickLimitResult.limited;
 
   ///Returns the arguments for the limit
   Map<String, dynamic> get args => <String, dynamic>{
@@ -77,10 +78,14 @@ class PickMedia {
   const PickMedia({
     this.quality = 100,
     this.useVisualMediaPicker = true,
-  }) : assert(quality >= 0 && quality <= 100, 'Invalid image quality, must be between 0 and 100');
+  }) : assert(quality >= 0 && quality <= 100,
+            'Invalid image quality, must be between 0 and 100');
 
   ///Returns the arguments for the media
-  Map<String, dynamic> get args => <String, dynamic>{'imageQuality': quality, 'usePhotoPicker': useVisualMediaPicker};
+  Map<String, dynamic> get args => <String, dynamic>{
+        'imageQuality': quality,
+        'usePhotoPicker': useVisualMediaPicker
+      };
 }
 
 ///Entry point for picking files, directories and media
@@ -141,7 +146,10 @@ class Picker {
   Future<List<DocumentFile>> documents() async {
     final result = await _onMethodResult<List<dynamic>>();
     return result != null
-        ? result.cast<Map<dynamic, dynamic>>().map((it) => DocumentFile.fromMap(Map.from(it))).toList()
+        ? result
+            .cast<Map<dynamic, dynamic>>()
+            .map((it) => DocumentFile.fromMap(Map.from(it)))
+            .toList()
         : [];
   }
 
@@ -151,5 +159,6 @@ class Picker {
     return result != null ? result.cast<String>().map(File.new).toList() : [];
   }
 
-  Future<T?> _onMethodResult<T>() => ActivityChannel.instance.call<T>(_name, arguments);
+  Future<T?> _onMethodResult<T>() =>
+      ActivityChannel.instance.call<T>(_name, arguments);
 }

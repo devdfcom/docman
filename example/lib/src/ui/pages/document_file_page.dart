@@ -38,9 +38,11 @@ class _DocumentFilePageState extends State<DocumentFilePage> {
   void _onDocument(DocumentFile? doc) => setState(() => _document = doc);
 
   //Set result
-  void _onResult(List<MethodApiEntry> entries) => entries.map((e) => MethodApiWidget(e)).forEach(_streamController.add);
+  void _onResult(List<MethodApiEntry> entries) =>
+      entries.map((e) => MethodApiWidget(e)).forEach(_streamController.add);
 
-  void _onResultWidgets(List<Widget> widgets) => widgets.forEach(_streamController.add);
+  void _onResultWidgets(List<Widget> widgets) =>
+      widgets.forEach(_streamController.add);
 
   bool get _isFile => _document != null && _document!.isFile;
 
@@ -49,15 +51,21 @@ class _DocumentFilePageState extends State<DocumentFilePage> {
   /// Document Activity Actions
   List<Widget> get _activityActions => _isFile
       ? [
-          ListTileHeaderDense(title: 'Document Activity Actions', icon: Icons.not_started_outlined),
-          ActivityDocumentFile(document: _document, onDocument: _onDocument, onResult: _onResult),
+          ListTileHeaderDense(
+              title: 'Document Activity Actions',
+              icon: Icons.not_started_outlined),
+          ActivityDocumentFile(
+              document: _document,
+              onDocument: _onDocument,
+              onResult: _onResult),
         ]
       : [];
 
   /// Document Actions
   List<Widget> get _documentActions => _document != null
       ? [
-          ListTileHeaderDense(title: 'Document Actions', icon: Icons.play_arrow),
+          ListTileHeaderDense(
+              title: 'Document Actions', icon: Icons.play_arrow),
           ActionsDocumentFile(
             document: _document,
             onDocument: _onDocument,
@@ -71,7 +79,8 @@ class _DocumentFilePageState extends State<DocumentFilePage> {
   /// Document Stream Actions
   List<Widget> get _streamActions => _document != null
       ? [
-          ListTileHeaderDense(title: 'Document Stream Actions', icon: Icons.stream_outlined),
+          ListTileHeaderDense(
+              title: 'Document Stream Actions', icon: Icons.stream_outlined),
           EventsDocumentFile(document: _document!, onResult: _onResult)
         ]
       : [];
@@ -79,7 +88,12 @@ class _DocumentFilePageState extends State<DocumentFilePage> {
   @override
   Widget build(BuildContext context) => ListPage(
         title: 'DocumentFile',
-        actions: [IconButton(icon: const Icon(Icons.restore), onPressed: _resetState, tooltip: 'Reset Data')],
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.restore),
+              onPressed: _resetState,
+              tooltip: 'Reset Data')
+        ],
         children: [
           Expanded(
             child: SingleChildScrollViewWithScrollBar(
@@ -87,7 +101,8 @@ class _DocumentFilePageState extends State<DocumentFilePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ///1. Document Initialization
-                  ListTileHeaderDense(title: 'Init Document', icon: Icons.note_outlined),
+                  ListTileHeaderDense(
+                      title: 'Init Document', icon: Icons.note_outlined),
                   InitDocumentFile(
                     document: _document,
                     onDocument: _onDocument,
@@ -106,7 +121,8 @@ class _DocumentFilePageState extends State<DocumentFilePage> {
                       clipBehavior: Clip.antiAlias,
                       child: ListTileDense(
                         title: 'No Document selected',
-                        subTitle: 'Pick a directory or document to perform actions',
+                        subTitle:
+                            'Pick a directory or document to perform actions',
                       ),
                     )
                 ],
@@ -114,7 +130,8 @@ class _DocumentFilePageState extends State<DocumentFilePage> {
             ),
           ),
           SizedBox(height: 10),
-          ResultBoxStream(streamController: _streamController, resetAll: _resetAll),
+          ResultBoxStream(
+              streamController: _streamController, resetAll: _resetAll),
         ],
       );
 }

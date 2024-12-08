@@ -22,7 +22,9 @@ class DocumentFileMethods {
         'action': action,
       };
 
-  Map<String, dynamic> _streamArgs(String event, {int? buffer, int start = 0}) => {
+  Map<String, dynamic> _streamArgs(String event,
+          {int? buffer, int start = 0}) =>
+      {
         'method': '${_name}event',
         'event': event,
         'uri': doc.uri,
@@ -32,7 +34,8 @@ class DocumentFileMethods {
 
   /// Get DocumentFile from the uri.
   Future<DocumentFile?> get() async {
-    assert(doc.uri.isNotEmpty, 'DocumentFile must have a uri, before calling get method.');
+    assert(doc.uri.isNotEmpty,
+        'DocumentFile must have a uri, before calling get method.');
     //2. Call method
     final result = await _actionResult<Map<dynamic, dynamic>>(_args('get'));
     return result != null ? DocumentFile.fromMap(Map.from(result)) : null;
@@ -40,7 +43,8 @@ class DocumentFileMethods {
 
   /// Get the permissions status for the file or directory.
   Future<PersistedPermission?> permissions() async {
-    assert(doc.uri.isNotEmpty, 'DocumentFile must have a uri, before calling permissions method.');
+    assert(doc.uri.isNotEmpty,
+        'DocumentFile must have a uri, before calling permissions method.');
     //2. Call method
     return DocMan.perms.status(doc.uri);
   }
@@ -48,7 +52,8 @@ class DocumentFileMethods {
   /// Read the document content as bytes.
   Future<Uint8List?> read() async {
     assert(doc.exists, 'DocumentFile must exist, before calling read method.');
-    assert(doc.isFile, 'DocumentFile must be a file, before calling read method.');
+    assert(
+        doc.isFile, 'DocumentFile must be a file, before calling read method.');
     //If document canRead is false, then return null
     if (!doc.canRead) return null;
     //1. Collect args
@@ -59,9 +64,12 @@ class DocumentFileMethods {
   }
 
   /// Read the document content as string stream.
-  Stream<String> readAsString(String charset, {int? bufferSize, int start = 0}) {
-    assert(doc.exists, 'DocumentFile must exist, before calling readAsString method.');
-    assert(doc.isFile, 'DocumentFile must be a file, before calling readAsString method.');
+  Stream<String> readAsString(String charset,
+      {int? bufferSize, int start = 0}) {
+    assert(doc.exists,
+        'DocumentFile must exist, before calling readAsString method.');
+    assert(doc.isFile,
+        'DocumentFile must be a file, before calling readAsString method.');
 
     //1. Collect args
     final args = _streamArgs('readAsString', buffer: bufferSize, start: start);
@@ -72,8 +80,10 @@ class DocumentFileMethods {
 
   /// Read the document content as bytes stream.
   Stream<Uint8List> readAsBytes({int? bufferSize, int start = 0}) {
-    assert(doc.exists, 'DocumentFile must exist, before calling readAsBytes method.');
-    assert(doc.isFile, 'DocumentFile must be a file, before calling readAsBytes method.');
+    assert(doc.exists,
+        'DocumentFile must exist, before calling readAsBytes method.');
+    assert(doc.isFile,
+        'DocumentFile must be a file, before calling readAsBytes method.');
 
     //1. Collect args
     final args = _streamArgs('readAsBytes', buffer: bufferSize, start: start);
@@ -83,8 +93,10 @@ class DocumentFileMethods {
 
   /// Create a directory in the directory.
   Future<DocumentFile?> createDirectory(String name) async {
-    assert(doc.exists, 'DocumentFile must exist, before calling createDirectory method.');
-    assert(doc.isDirectory, 'DocumentFile must be a directory, before calling createDirectory method.');
+    assert(doc.exists,
+        'DocumentFile must exist, before calling createDirectory method.');
+    assert(doc.isDirectory,
+        'DocumentFile must be a directory, before calling createDirectory method.');
     //If document canCreate is false, then return null
     if (!doc.canCreate) return null;
     //1. Collect args
@@ -101,11 +113,14 @@ class DocumentFileMethods {
     String? content,
     Uint8List? bytes,
   }) async {
-    assert(doc.exists, 'DocumentFile must exist, before calling createFile method.');
-    assert(doc.isDirectory, 'DocumentFile must be a directory, before calling createFile method.');
+    assert(doc.exists,
+        'DocumentFile must exist, before calling createFile method.');
+    assert(doc.isDirectory,
+        'DocumentFile must be a directory, before calling createFile method.');
     assert(name.isNotEmpty, 'Name must not be empty.');
     assert(name.contains('.'), 'Name must contain an extension.');
-    assert(content != null || bytes != null, 'Content or bytes must be provided.');
+    assert(
+        content != null || bytes != null, 'Content or bytes must be provided.');
     //If document canCreate is false, then return null
     if (!doc.canCreate) return null;
     //1. Collect args
@@ -124,8 +139,10 @@ class DocumentFileMethods {
     String? nameContains,
   }) async {
     assert(doc.exists, 'DocumentFile must exist, before calling list method.');
-    assert(doc.isDirectory, 'DocumentFile must be a directory, before calling list method.');
-    assert(nameContains == null || nameContains.isNotEmpty, 'nameContains must be valid string or null.');
+    assert(doc.isDirectory,
+        'DocumentFile must be a directory, before calling list method.');
+    assert(nameContains == null || nameContains.isNotEmpty,
+        'nameContains must be valid string or null.');
     //If document canRead is false, then return empty list
     if (!doc.canRead) return [];
     //1. Collect args
@@ -135,7 +152,11 @@ class DocumentFileMethods {
     args['name'] = nameContains;
     //2. Call method
     final result = await _actionResult<List<dynamic>>(args);
-    return result?.cast<Map<dynamic, dynamic>>().map((it) => DocumentFile.fromMap(Map.from(it))).toList() ?? [];
+    return result
+            ?.cast<Map<dynamic, dynamic>>()
+            .map((it) => DocumentFile.fromMap(Map.from(it)))
+            .toList() ??
+        [];
   }
 
   /// Get list of documents in the directory as stream.
@@ -144,9 +165,12 @@ class DocumentFileMethods {
     List<String> extensions = const [],
     String? nameContains,
   }) {
-    assert(doc.exists, 'DocumentFile must exist, before calling listStream method.');
-    assert(doc.isDirectory, 'DocumentFile must be a directory, before calling listStream method.');
-    assert(nameContains == null || nameContains.isNotEmpty, 'nameContains must be valid string or null.');
+    assert(doc.exists,
+        'DocumentFile must exist, before calling listStream method.');
+    assert(doc.isDirectory,
+        'DocumentFile must be a directory, before calling listStream method.');
+    assert(nameContains == null || nameContains.isNotEmpty,
+        'nameContains must be valid string or null.');
     //If document canRead is false, then return empty list
     if (!doc.canRead) return const Stream.empty();
     //1. Collect args
@@ -155,13 +179,15 @@ class DocumentFileMethods {
     args['extensions'] = extensions;
     args['name'] = nameContains;
     //2. Call method
-    return _streamResult(args).map<DocumentFile>((it) => DocumentFile.fromMap(Map.from(it as Map<dynamic, dynamic>)));
+    return _streamResult(args).map<DocumentFile>(
+        (it) => DocumentFile.fromMap(Map.from(it as Map<dynamic, dynamic>)));
   }
 
   /// Find a document in the directory by name.
   Future<DocumentFile?> find(String name) async {
     assert(doc.exists, 'DocumentFile must exist, before calling find method.');
-    assert(doc.isDirectory, 'DocumentFile must be a directory, before calling find method.');
+    assert(doc.isDirectory,
+        'DocumentFile must be a directory, before calling find method.');
     assert(name.isNotEmpty, 'Name must not be empty.');
     //If document canRead is false, then return null
     if (!doc.canRead) return Future.value();
@@ -178,7 +204,8 @@ class DocumentFileMethods {
     int imageQuality = 100,
   }) async {
     assert(doc.exists, 'DocumentFile must exist, before calling cache method.');
-    assert(doc.isFile, 'DocumentFile must be a file, before calling cache method.');
+    assert(doc.isFile,
+        'DocumentFile must be a file, before calling cache method.');
     //If document canRead is false, then return null
     if (!doc.canRead) return Future.value();
     //1. Collect args
@@ -195,8 +222,10 @@ class DocumentFileMethods {
     String? name,
     bool deleteSource = false,
   }) async {
-    assert(doc.exists, 'DocumentFile must exist, before calling ${deleteSource ? 'moveTo' : 'copyTo'} method.');
-    assert(doc.isFile, 'DocumentFile must be a file, before calling ${deleteSource ? 'moveTo' : 'copyTo'} method.');
+    assert(doc.exists,
+        'DocumentFile must exist, before calling ${deleteSource ? 'moveTo' : 'copyTo'} method.');
+    assert(doc.isFile,
+        'DocumentFile must be a file, before calling ${deleteSource ? 'moveTo' : 'copyTo'} method.');
     //canRead required both for copy and move operations
     //If this is a move operation and document canDelete is false, then return null
     if (!doc.canRead || (deleteSource && !doc.canDelete)) return Future.value();
@@ -211,7 +240,8 @@ class DocumentFileMethods {
 
   /// Delete the document, if it's possible.
   Future<bool> delete() async {
-    assert(doc.exists, 'DocumentFile must exist, before calling delete method.');
+    assert(
+        doc.exists, 'DocumentFile must exist, before calling delete method.');
     //If document canDelete is false, then return false
     if (!doc.canDelete) return false;
     //2. Call method
@@ -235,8 +265,10 @@ class DocumentFileMethods {
 
   /// Open the document.
   Future<bool> open(String? title) async {
-    assert(doc.exists, 'DocumentFile must exist, before calling openWith method.');
-    assert(doc.isFile, 'DocumentFile must be a file, before calling openWith method.');
+    assert(
+        doc.exists, 'DocumentFile must exist, before calling openWith method.');
+    assert(doc.isFile,
+        'DocumentFile must be a file, before calling openWith method.');
     //1. Collect args
     final args = _args('open');
     if (title != null) args['title'] = title;
@@ -248,7 +280,8 @@ class DocumentFileMethods {
   /// Share the document.
   Future<bool> share(String? title) async {
     assert(doc.exists, 'DocumentFile must exist, before calling share method.');
-    assert(doc.isFile, 'DocumentFile must be a file, before calling share method.');
+    assert(doc.isFile,
+        'DocumentFile must be a file, before calling share method.');
     //1. Collect args
     final args = _args('share');
     if (title != null) args['title'] = title;
@@ -263,8 +296,10 @@ class DocumentFileMethods {
     bool localOnly = false,
     bool deleteSource = false,
   }) async {
-    assert(doc.exists, 'DocumentFile must exist, before calling saveTo method.');
-    assert(doc.isFile, 'DocumentFile must be a file, before calling saveTo method.');
+    assert(
+        doc.exists, 'DocumentFile must exist, before calling saveTo method.');
+    assert(doc.isFile,
+        'DocumentFile must be a file, before calling saveTo method.');
     //1. Collect args
     final args = _args('saveTo');
     if (initDir != null) args['initDir'] = initDir;
@@ -283,10 +318,13 @@ class DocumentFileMethods {
     bool png = false,
     bool webp = false,
   }) async {
-    assert(doc.exists, 'DocumentFile must exist, before calling getThumbnail method.');
-    assert(doc.isFile, 'DocumentFile must be a file, before calling getThumbnail method.');
+    assert(doc.exists,
+        'DocumentFile must exist, before calling getThumbnail method.');
+    assert(doc.isFile,
+        'DocumentFile must be a file, before calling getThumbnail method.');
     assert(width > 0 && height > 0, 'Width and height must be greater than 0.');
-    assert(quality >= 0 && quality <= 100, 'Quality must be between 0 and 100.');
+    assert(
+        quality >= 0 && quality <= 100, 'Quality must be between 0 and 100.');
     assert(!png || !webp, 'Only one of png or webp can be true.');
     //1. Check if canThumbnail
     if (!doc.canThumbnail) return Future.value();
@@ -300,7 +338,9 @@ class DocumentFileMethods {
       'webp': webp,
     };
 
-    return (T == File ? await _getThumbnailFile(args) : await _getDocumentThumbnail(args)) as T?;
+    return (T == File
+        ? await _getThumbnailFile(args)
+        : await _getDocumentThumbnail(args)) as T?;
   }
 
   Future<DocumentThumbnail?> _getDocumentThumbnail([dynamic args]) async {
@@ -313,9 +353,12 @@ class DocumentFileMethods {
     return result != null ? File(result) : null;
   }
 
-  Future<T?> _activityResult<T>([dynamic args]) => ActivityChannel.instance.call<T>('${_name}activity', args);
+  Future<T?> _activityResult<T>([dynamic args]) =>
+      ActivityChannel.instance.call<T>('${_name}activity', args);
 
-  Future<T?> _actionResult<T>([dynamic args]) => ActionChannel.instance.call<T>('${_name}action', args);
+  Future<T?> _actionResult<T>([dynamic args]) =>
+      ActionChannel.instance.call<T>('${_name}action', args);
 
-  Stream<dynamic> _streamResult([dynamic args]) => EventsChannel.instance.listen(args);
+  Stream<dynamic> _streamResult([dynamic args]) =>
+      EventsChannel.instance.listen(args);
 }

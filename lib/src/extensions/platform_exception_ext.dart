@@ -19,7 +19,8 @@ extension PlatformExceptionExt on PlatformException {
         AppDirActionException.tag => throw AppDirActionException(message),
         PickerMimeTypeException.tag => throw PickerMimeTypeException(message),
         PickerMaxLimitException.tag => throw PickerMaxLimitException(message),
-        PickerCountException.tag => throw PickerCountException(message, details as String),
+        PickerCountException.tag =>
+          throw PickerCountException(message, details as String),
         DocumentFileException.tag => throw DocumentFileException(message),
         PermissionsException.tag => throw PermissionsException(message),
         _ => throw this,

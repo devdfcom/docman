@@ -15,7 +15,8 @@ class AlreadyRunningException implements DocManException {
   ///
   /// The [name] parameter is the name of the method that is already in progress.
   /// If [name] is not provided, the default value is `undefined`.
-  const AlreadyRunningException([String? name]) : methodName = name ?? 'undefined';
+  const AlreadyRunningException([String? name])
+      : methodName = name ?? 'undefined';
 
   @override
   String toString() => 'AlreadyRunning Method: $methodName';

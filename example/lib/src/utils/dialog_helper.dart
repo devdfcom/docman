@@ -23,7 +23,8 @@ class DialogHelper {
       showModalBottomSheet(
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0), topRight: Radius.circular(8.0)),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8.0), topRight: Radius.circular(8.0)),
         ),
         isScrollControlled: true,
         context: context,

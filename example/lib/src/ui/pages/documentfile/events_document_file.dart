@@ -9,7 +9,8 @@ import 'package:flutter/services.dart';
 import '../../../utils/dialog_helper.dart';
 
 class EventsDocumentFile extends StatefulWidget {
-  const EventsDocumentFile({required this.document, required this.onResult, super.key});
+  const EventsDocumentFile(
+      {required this.document, required this.onResult, super.key});
 
   final DocumentFile document;
   final Function(List<MethodApiEntry>) onResult;
@@ -23,17 +24,27 @@ class _EventsDocumentFileState extends State<EventsDocumentFile> {
   List<String> _listDocumentsMimeTypes = [];
   List<String> _listDocumentsExtensions = [];
   String? _listDocumentsNameFilter;
-  final _exampleMimeTypes = ['application/pdf', 'image/*', 'text/plain', 'image/png', 'image/jpeg', 'directory'];
+  final _exampleMimeTypes = [
+    'application/pdf',
+    'image/*',
+    'text/plain',
+    'image/png',
+    'image/jpeg',
+    'directory'
+  ];
   final _exampleExtensions = ['pdf', 'txt', 'png', 'jpg'];
 
   DocumentFile get _document => widget.document;
 
-  void _setListDocumentsMimeTypes(List<String> mimes) => setState(() => _listDocumentsMimeTypes = mimes);
+  void _setListDocumentsMimeTypes(List<String> mimes) =>
+      setState(() => _listDocumentsMimeTypes = mimes);
 
-  void _setListDocumentsExtensions(List<String> exts) => setState(() => _listDocumentsExtensions = exts);
+  void _setListDocumentsExtensions(List<String> exts) =>
+      setState(() => _listDocumentsExtensions = exts);
 
   MethodApiEntry _exceptionEntry(Object e) => MethodApiEntry(
-        title: '${e.runtimeType}: ${e is DocManException ? e.code : e is PlatformException ? e.code : ''}',
+        title:
+            '${e.runtimeType}: ${e is DocManException ? e.code : e is PlatformException ? e.code : ''}',
         subTitle: 'Exception caught while picking files',
         result: e is AssertionError ? e.message.toString() : e.toString(),
         isResultOk: false,
@@ -53,10 +64,15 @@ class _EventsDocumentFileState extends State<EventsDocumentFile> {
     ]);
     //2. Stream listen
     stream.listen((event) {
-      widget.onResult([MethodApiEntry(result: 'readAsString: Chunk $countChunks, length: ${event.length}')]);
+      widget.onResult([
+        MethodApiEntry(
+            result: 'readAsString: Chunk $countChunks, length: ${event.length}')
+      ]);
       countChunks++;
     }, onDone: () {
-      widget.onResult([MethodApiEntry(result: 'readAsString: Done. Total Chunks: $countChunks')]);
+      widget.onResult([
+        MethodApiEntry(result: 'readAsString: Done. Total Chunks: $countChunks')
+      ]);
     }, onError: (e) {
       widget.onResult([_exceptionEntry(e)]);
     });
@@ -76,10 +92,15 @@ class _EventsDocumentFileState extends State<EventsDocumentFile> {
     ]);
     //2. Stream listen
     stream.listen((event) {
-      widget.onResult([MethodApiEntry(result: 'readAsBytes: Chunk $countChunks, length: ${event.length}')]);
+      widget.onResult([
+        MethodApiEntry(
+            result: 'readAsBytes: Chunk $countChunks, length: ${event.length}')
+      ]);
       countChunks++;
     }, onDone: () {
-      widget.onResult([MethodApiEntry(result: 'readAsBytes: Done. Total Chunks: $countChunks')]);
+      widget.onResult([
+        MethodApiEntry(result: 'readAsBytes: Done. Total Chunks: $countChunks')
+      ]);
     }, onError: (e) {
       widget.onResult([_exceptionEntry(e)]);
     });
@@ -96,7 +117,8 @@ class _EventsDocumentFileState extends State<EventsDocumentFile> {
 
     widget.onResult([
       MethodApiEntry(
-        name: 'DocumentFile.listDocumentsStream(mimeTypes: $_listDocumentsMimeTypes, '
+        name:
+            'DocumentFile.listDocumentsStream(mimeTypes: $_listDocumentsMimeTypes, '
             'extensions: $_listDocumentsExtensions, nameContains: $_listDocumentsNameFilter)',
         title: 'List Documents as Stream started',
       ),
@@ -106,7 +128,9 @@ class _EventsDocumentFileState extends State<EventsDocumentFile> {
       widget.onResult([MethodApiEntry(result: event.toString())]);
       countChunks++;
     }, onDone: () {
-      widget.onResult([MethodApiEntry(result: 'Stream is done. Total: $countChunks documents')]);
+      widget.onResult([
+        MethodApiEntry(result: 'Stream is done. Total: $countChunks documents')
+      ]);
     }, onError: (e) {
       widget.onResult([_exceptionEntry(e)]);
     });
@@ -133,7 +157,8 @@ class _EventsDocumentFileState extends State<EventsDocumentFile> {
             onUpdate: _setListDocumentsExtensions,
           ),
           ListTile(
-            title: Text('Filter Name by${_listDocumentsNameFilter != null ? ': $_listDocumentsNameFilter' : ''}'),
+            title: Text(
+                'Filter Name by${_listDocumentsNameFilter != null ? ': $_listDocumentsNameFilter' : ''}'),
             subtitle: Text('Only documents with name containing the filter'),
             dense: true,
             onTap: () => DialogHelper()
@@ -141,11 +166,13 @@ class _EventsDocumentFileState extends State<EventsDocumentFile> {
               header: 'File name contains',
               initValue: _listDocumentsNameFilter ?? '',
               leftIcon: Icons.text_snippet_outlined,
-              customFilter: FilteringTextInputFormatter.deny(RegExp('[\\/:*?"<>|]')),
+              customFilter:
+                  FilteringTextInputFormatter.deny(RegExp('[\\/:*?"<>|]')),
               canBeEmpty: true,
             )
                 .then((value) {
-              setState(() => _listDocumentsNameFilter = value?.isNotEmpty == true ? value : null);
+              setState(() => _listDocumentsNameFilter =
+                  value?.isNotEmpty == true ? value : null);
             }),
           ),
         ],
@@ -158,15 +185,22 @@ class _EventsDocumentFileState extends State<EventsDocumentFile> {
           if (_document.isFile)
             //1. Button activity actions
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8).copyWith(top: 5),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8).copyWith(top: 5),
               child: Wrap(
                 spacing: 5.0,
                 runSpacing: 0.0,
                 alignment: WrapAlignment.start,
                 crossAxisAlignment: WrapCrossAlignment.start,
                 children: [
-                  MethodActionButton(title: 'Read as String', onPressed: _readAsString, active: _document.canRead),
-                  MethodActionButton(title: 'Read as Bytes', onPressed: _readAsBytes, active: _document.canRead),
+                  MethodActionButton(
+                      title: 'Read as String',
+                      onPressed: _readAsString,
+                      active: _document.canRead),
+                  MethodActionButton(
+                      title: 'Read as Bytes',
+                      onPressed: _readAsBytes,
+                      active: _document.canRead),
                 ],
               ),
             ),

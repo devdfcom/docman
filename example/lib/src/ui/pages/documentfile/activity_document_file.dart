@@ -27,12 +27,15 @@ class _ActivityDocumentFileState extends State<ActivityDocumentFile> {
   bool _saveToLocalOnly = false;
   bool _saveToDeleteSource = false;
 
-  void _setSaveToLocalOnly(bool value) => setState(() => _saveToLocalOnly = value);
+  void _setSaveToLocalOnly(bool value) =>
+      setState(() => _saveToLocalOnly = value);
 
-  void _setSaveToDeleteSource(bool value) => setState(() => _saveToDeleteSource = value);
+  void _setSaveToDeleteSource(bool value) =>
+      setState(() => _saveToDeleteSource = value);
 
   MethodApiEntry _exceptionEntry(Object e) => MethodApiEntry(
-        title: '${e.runtimeType}: ${e is DocManException ? e.code : e is PlatformException ? e.code : ''}',
+        title:
+            '${e.runtimeType}: ${e is DocManException ? e.code : e is PlatformException ? e.code : ''}',
         subTitle: 'Exception caught while picking files',
         result: e is AssertionError ? e.message.toString() : e.toString(),
         isResultOk: false,
@@ -54,7 +57,8 @@ class _ActivityDocumentFileState extends State<ActivityDocumentFile> {
         MethodApiEntry(
           name: 'DocumentFile.open(title: "Open Document with")',
           title: exception?.title ?? 'Open Document',
-          subTitle: exception?.subTitle ?? 'Returns true if the document was opened',
+          subTitle:
+              exception?.subTitle ?? 'Returns true if the document was opened',
           result: exception?.result ?? isOpened.toString(),
           isResultOk: exception == null,
         )
@@ -78,7 +82,8 @@ class _ActivityDocumentFileState extends State<ActivityDocumentFile> {
         MethodApiEntry(
           name: 'DocumentFile.share(title: "Share Document with")',
           title: exception?.title ?? 'Share Document',
-          subTitle: exception?.subTitle ?? 'Returns true if the document was shared',
+          subTitle:
+              exception?.subTitle ?? 'Returns true if the document was shared',
           result: exception?.result ?? isShared.toString(),
           isResultOk: exception == null,
         )
@@ -91,7 +96,8 @@ class _ActivityDocumentFileState extends State<ActivityDocumentFile> {
     MethodApiEntry? exception;
 
     try {
-      doc = await widget.document!.saveTo(localOnly: _saveToLocalOnly, deleteSource: _saveToDeleteSource);
+      doc = await widget.document!.saveTo(
+          localOnly: _saveToLocalOnly, deleteSource: _saveToDeleteSource);
     } catch (e) {
       exception = _exceptionEntry(e);
     }
@@ -101,13 +107,15 @@ class _ActivityDocumentFileState extends State<ActivityDocumentFile> {
       widget.onDocument(doc);
       widget.onResult([
         MethodApiEntry(
-          name: 'DocumentFile.saveTo(localOnly: $_saveToLocalOnly, deleteSource: $_saveToDeleteSource)',
+          name:
+              'DocumentFile.saveTo(localOnly: $_saveToLocalOnly, deleteSource: $_saveToDeleteSource)',
           title: exception != null
               ? exception.title
               : doc != null
                   ? 'DocumentFile: ${doc.name}'
                   : 'Document was not saved',
-          subTitle: exception?.subTitle ?? 'Returns the saved document as `DocumentFile`',
+          subTitle: exception?.subTitle ??
+              'Returns the saved document as `DocumentFile`',
           result: exception?.result ?? doc?.toString(),
           isResultOk: exception == null && doc != null,
         )

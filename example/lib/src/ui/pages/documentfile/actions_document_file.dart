@@ -9,7 +9,8 @@ import 'package:docman_example/src/ui/widgets/thumb_result_widget.dart';
 import 'package:docman_example/src/utils/dialog_helper.dart';
 import 'package:docman_example/src/utils/toast_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show FilteringTextInputFormatter, PlatformException, Uint8List, rootBundle;
+import 'package:flutter/services.dart'
+    show FilteringTextInputFormatter, PlatformException, Uint8List, rootBundle;
 
 class ActionsDocumentFile extends StatefulWidget {
   const ActionsDocumentFile({
@@ -36,7 +37,14 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
   List<String> _listDocumentsMimeTypes = [];
   List<String> _listDocumentsExtensions = [];
   String? _listDocumentsNameFilter;
-  final _exampleMimeTypes = ['application/pdf', 'image/*', 'text/plain', 'image/png', 'image/jpeg', 'directory'];
+  final _exampleMimeTypes = [
+    'application/pdf',
+    'image/*',
+    'text/plain',
+    'image/png',
+    'image/jpeg',
+    'directory'
+  ];
   final _exampleExtensions = ['pdf', 'txt', 'png', 'jpg'];
 
   ///Thumbnail parameters
@@ -67,9 +75,11 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
         _thumbAsFile = false;
       });
 
-  void _setListDocumentsMimeTypes(List<String> mimes) => setState(() => _listDocumentsMimeTypes = mimes);
+  void _setListDocumentsMimeTypes(List<String> mimes) =>
+      setState(() => _listDocumentsMimeTypes = mimes);
 
-  void _setListDocumentsExtensions(List<String> exts) => setState(() => _listDocumentsExtensions = exts);
+  void _setListDocumentsExtensions(List<String> exts) =>
+      setState(() => _listDocumentsExtensions = exts);
 
   void _setWidth(String? value) => setState(() {
         _thumbWidth = (int.tryParse(value?.trim() ?? '') ?? 256);
@@ -87,7 +97,8 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
       });
 
   MethodApiEntry _exceptionEntry(Object e) => MethodApiEntry(
-        title: '${e.runtimeType}: ${e is DocManException ? e.code : e is PlatformException ? e.code : ''}',
+        title:
+            '${e.runtimeType}: ${e is DocManException ? e.code : e is PlatformException ? e.code : ''}',
         subTitle: 'Exception was caught',
         result: e is AssertionError ? e.message.toString() : e.toString(),
         isResultOk: false,
@@ -105,7 +116,9 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
     widget.onResult([
       MethodApiEntry(
         name: 'DocumentFile.permissions()',
-        title: exception != null ? exception.title : 'Permissions for: ${_document?.name}',
+        title: exception != null
+            ? exception.title
+            : 'Permissions for: ${_document?.name}',
         subTitle: exception?.subTitle,
         result: exception?.result ?? perms.toString(),
         isResultOk: exception == null && perms != null,
@@ -127,8 +140,11 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
     widget.onResult([
       MethodApiEntry(
         name: 'DocumentFile.read()',
-        title: exception != null ? exception.title : 'Content of ${_document?.name}',
-        subTitle: exception?.subTitle ?? 'Returns the content of the document as `Uint8List`',
+        title: exception != null
+            ? exception.title
+            : 'Content of ${_document?.name}',
+        subTitle: exception?.subTitle ??
+            'Returns the content of the document as `Uint8List`',
         result: exception?.result ?? 'Content Length: ${content?.length}',
         isResultOk: exception == null && content != null,
       )
@@ -190,7 +206,8 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
       MethodApiEntry(
         name: 'DocumentFile.createDirectory($name)',
         title: exception != null ? exception.title : 'Create Directory',
-        subTitle: exception?.subTitle ?? 'Returns the created directory as `DocumentFile`',
+        subTitle: exception?.subTitle ??
+            'Returns the created directory as `DocumentFile`',
         result: exception?.result ?? dir.toString(),
         isResultOk: exception == null && dir != null,
       ),
@@ -205,7 +222,9 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
       //1. Create a png image file
       if (image) {
         //1.1. Load image from assets
-        final bytes = (await rootBundle.load('assets/images/png_example.png')).buffer.asUint8List();
+        final bytes = (await rootBundle.load('assets/images/png_example.png'))
+            .buffer
+            .asUint8List();
         file = await _document?.createFile(name: name, bytes: bytes);
       } else {
         //1.2. Create a text file
@@ -218,9 +237,13 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
     //2. Set the result
     widget.onResult([
       MethodApiEntry(
-        name: 'DocumentFile.createFile(name: $name, ${image ? 'bytes: Uint8List' : 'content: "Hello World"'},)',
-        title: exception != null ? exception.title : 'Create File in ${_document?.name}',
-        subTitle: exception?.subTitle ?? 'Returns the created file as `DocumentFile`',
+        name:
+            'DocumentFile.createFile(name: $name, ${image ? 'bytes: Uint8List' : 'content: "Hello World"'},)',
+        title: exception != null
+            ? exception.title
+            : 'Create File in ${_document?.name}',
+        subTitle:
+            exception?.subTitle ?? 'Returns the created file as `DocumentFile`',
         result: exception?.result ?? file.toString(),
         isResultOk: exception == null && file != null,
       ),
@@ -242,7 +265,8 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
         title: 'List Documents',
         subTitle: 'Returns list of documents in the directory',
       ),
-      ...docs.map((doc) => MethodApiEntry(title: 'DocumentFile: ${doc.name}', result: doc.toString())),
+      ...docs.map((doc) => MethodApiEntry(
+          title: 'DocumentFile: ${doc.name}', result: doc.toString())),
     ]);
   }
 
@@ -283,7 +307,9 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
 
     //2. Try to copy / move the document
     try {
-      file = deleteSource ? await _document!.moveTo(toPath) : await _document!.copyTo(toPath, name: 'copy custom name');
+      file = deleteSource
+          ? await _document!.moveTo(toPath)
+          : await _document!.copyTo(toPath, name: 'copy custom name');
     } catch (e) {
       exception = _exceptionEntry(e);
     }
@@ -301,8 +327,11 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
     widget.onResult([
       MethodApiEntry(
         name: 'DocumentFile.$methodName($params)',
-        title: exception != null ? exception.title : '$title Document to Directory Uri',
-        subTitle: exception?.subTitle ?? 'Returns the $returns document as `DocumentFile`',
+        title: exception != null
+            ? exception.title
+            : '$title Document to Directory Uri',
+        subTitle: exception?.subTitle ??
+            'Returns the $returns document as `DocumentFile`',
         result: exception?.result ?? file.toString(),
         isResultOk: exception == null && file != null,
       ),
@@ -310,9 +339,9 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
   }
 
   Future<String?> _getDirectoryWithPerms({moveTo = false}) async {
-    final dir = await DocMan.perms
-        .list(files: false)
-        .then((perms) => perms.isNotEmpty ? perms.first.uri : null, onError: (e) => null);
+    final dir = await DocMan.perms.list(files: false).then(
+        (perms) => perms.isNotEmpty ? perms.first.uri : null,
+        onError: (e) => null);
 
     //1. Show error when no directory is found
     if (dir == null) {
@@ -321,7 +350,8 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
           name: 'DocumentFile.${moveTo ? 'moveTo' : 'copyTo'}(null)',
           title: 'No directory found',
           subTitle: 'Persisted permissions list has no directories',
-          result: 'First pick a directory, to grant the persisted permissions to it',
+          result:
+              'First pick a directory, to grant the persisted permissions to it',
           isResultOk: false,
         ),
       ]);
@@ -413,8 +443,12 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
         ThumbResultWidget(
           maxWidth: _thumbWidth,
           maxHeight: _thumbHeight,
-          getThumb: _document!
-              .thumbnail(width: _thumbWidth, height: _thumbHeight, quality: _thumbQuality, png: png, webp: webp),
+          getThumb: _document!.thumbnail(
+              width: _thumbWidth,
+              height: _thumbHeight,
+              quality: _thumbQuality,
+              png: png,
+              webp: webp),
         )
       ]);
     }
@@ -435,21 +469,24 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
             title: 'Create text file',
             onPressed: () => _createFile('sample.txt'),
             active: _document != null && _document!.isDirectory,
-            description: Text('Create a file `sample.txt`, from `String` content in directory.',
+            description: Text(
+                'Create a file `sample.txt`, from `String` content in directory.',
                 style: TextStyle(color: Theme.of(context).hintColor)),
           ),
           MethodActionButton(
             title: 'Create text file with custom name',
             onPressed: () => _createFile('.txt'),
             active: _document != null && _document!.isDirectory,
-            description: Text('Create a file `.txt` (basename will be generated), from `String` content in directory.',
+            description: Text(
+                'Create a file `.txt` (basename will be generated), from `String` content in directory.',
                 style: TextStyle(color: Theme.of(context).hintColor)),
           ),
           MethodActionButton(
             title: 'Create image file',
             onPressed: () => _createFile('sample image.png', image: true),
             active: _document != null && _document!.isDirectory,
-            description: Text('Create a file `sample image.png` from `Uint8List` content in directory.',
+            description: Text(
+                'Create a file `sample image.png` from `Uint8List` content in directory.',
                 style: TextStyle(color: Theme.of(context).hintColor)),
           ),
         ],
@@ -476,7 +513,8 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
             onUpdate: _setListDocumentsExtensions,
           ),
           ListTile(
-            title: Text('Filter Name by${_listDocumentsNameFilter != null ? ': $_listDocumentsNameFilter' : ''}'),
+            title: Text(
+                'Filter Name by${_listDocumentsNameFilter != null ? ': $_listDocumentsNameFilter' : ''}'),
             subtitle: Text('Only documents with name containing the filter'),
             dense: true,
             onTap: () => DialogHelper()
@@ -484,25 +522,30 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
               header: 'File name contains',
               initValue: _listDocumentsNameFilter ?? '',
               leftIcon: Icons.text_snippet_outlined,
-              customFilter: FilteringTextInputFormatter.deny(RegExp('[\\/:*?"<>|]')),
+              customFilter:
+                  FilteringTextInputFormatter.deny(RegExp('[\\/:*?"<>|]')),
               canBeEmpty: true,
             )
                 .then((value) {
-              setState(() => _listDocumentsNameFilter = value?.isNotEmpty == true ? value : null);
+              setState(() => _listDocumentsNameFilter =
+                  value?.isNotEmpty == true ? value : null);
             }),
           ),
         ],
       );
 
   Widget get _thumbOptions => ExpansionTileWidget(
-        title: _thumbQuality == 100 ? 'Thumbnail Options' : 'Thumbnail Quality: $_thumbQuality',
+        title: _thumbQuality == 100
+            ? 'Thumbnail Options'
+            : 'Thumbnail Quality: $_thumbQuality',
         subTitle: Text(
           _thumbWidth == 256 && _thumbHeight == 256
               ? 'Customize width, height, quality, format'
               : 'Width: $_thumbWidth, Height: $_thumbHeight',
         ),
         action: _document!.canThumbnail ? _getThumbnail : null,
-        childrenPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        childrenPadding:
+            const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         children: [
           Row(children: [
             Expanded(
@@ -548,7 +591,9 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
             validator: (value) {
               if (value == null || value.isEmpty) return 'Quality is required';
               final imageQuality = int.tryParse(value);
-              if (imageQuality == null || imageQuality < 0 || imageQuality > 100) {
+              if (imageQuality == null ||
+                  imageQuality < 0 ||
+                  imageQuality > 100) {
                 return 'From 0 to 100';
               }
               return null;
@@ -560,7 +605,8 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
             hideParam: true,
             available: _thumbFormats,
             selected: [_thumbFormat],
-            onUpdate: (value) => setState(() => _thumbFormat = value.isNotEmpty ? value.last : 'jpeg'),
+            onUpdate: (value) => setState(
+                () => _thumbFormat = value.isNotEmpty ? value.last : 'jpeg'),
           ),
           ParamBool(
             title: 'as File',
@@ -584,22 +630,41 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
               alignment: WrapAlignment.start,
               crossAxisAlignment: WrapCrossAlignment.start,
               children: [
-                MethodActionButton(title: 'Permissions', onPressed: _permissions),
+                MethodActionButton(
+                    title: 'Permissions', onPressed: _permissions),
                 Visibility(
                   visible: _isFile,
-                  child: MethodActionButton(title: 'Read content', onPressed: _read, active: _document!.canRead),
+                  child: MethodActionButton(
+                      title: 'Read content',
+                      onPressed: _read,
+                      active: _document!.canRead),
                 ),
-                Visibility(visible: _isFile, child: MethodActionButton(title: 'Copy to Cache', onPressed: _cache)),
-                Visibility(visible: _isFile, child: MethodActionButton(title: 'Copy to Dir', onPressed: _copyMoveTo)),
                 Visibility(
                     visible: _isFile,
-                    child: MethodActionButton(title: 'Move to Dir', onPressed: () => _copyMoveTo(deleteSource: true))),
-                MethodActionButton(title: 'Delete', onPressed: _delete, active: _document!.canDelete),
+                    child: MethodActionButton(
+                        title: 'Copy to Cache', onPressed: _cache)),
                 Visibility(
-                    visible: _isDirectory, child: MethodActionButton(title: 'Find Document', onPressed: _findFile)),
+                    visible: _isFile,
+                    child: MethodActionButton(
+                        title: 'Copy to Dir', onPressed: _copyMoveTo)),
+                Visibility(
+                    visible: _isFile,
+                    child: MethodActionButton(
+                        title: 'Move to Dir',
+                        onPressed: () => _copyMoveTo(deleteSource: true))),
+                MethodActionButton(
+                    title: 'Delete',
+                    onPressed: _delete,
+                    active: _document!.canDelete),
                 Visibility(
                     visible: _isDirectory,
-                    child: MethodActionButton(title: 'Create Sub Directory', onPressed: _createDirectory)),
+                    child: MethodActionButton(
+                        title: 'Find Document', onPressed: _findFile)),
+                Visibility(
+                    visible: _isDirectory,
+                    child: MethodActionButton(
+                        title: 'Create Sub Directory',
+                        onPressed: _createDirectory)),
 
                 // MethodActionButton(title: 'Rename', onPressed: rename, active: _documentFile != null),
               ],

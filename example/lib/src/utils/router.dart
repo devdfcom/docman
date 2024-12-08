@@ -37,10 +37,12 @@ class AppRouter {
   }
 
   ///Getting route by name
-  static AppRoute getByName(String name) => routes.firstWhere((r) => r.name == name);
+  static AppRoute getByName(String name) =>
+      routes.firstWhere((r) => r.name == name);
 
   ///Pushing route by string name, finding it in list, and if data is not null, pushing with data
-  static pushNamed(String name, {Map<String, dynamic>? data}) => getByName(name).push(data: data);
+  static pushNamed(String name, {Map<String, dynamic>? data}) =>
+      getByName(name).push(data: data);
 
   ///Push to custom page
   static Future<T?> pushCustom<T>({
@@ -64,16 +66,19 @@ class AppRouter {
   static void goBack<T>([T? result]) => Navigator.pop(context, result);
 
   ///Using [PopScope] widget to listen back button press, and if it's pressed, we will invoke [onTap] function
-  static goBackWithValidation({required Widget child, required Function onTap}) => PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (didPop) return;
-        onTap();
-      },
-      child: child);
+  static goBackWithValidation(
+          {required Widget child, required Function onTap}) =>
+      PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, result) {
+            if (didPop) return;
+            onTap();
+          },
+          child: child);
 
   ///Force to go back to main page, removing all routes from stack
-  static Future<void> goBackToMain({Map<String, dynamic>? data}) => pushRoot(() => main.page(data));
+  static Future<void> goBackToMain({Map<String, dynamic>? data}) =>
+      pushRoot(() => main.page(data));
 
   /// Pushes a new route.
   static Future<T?> push<T, W extends Widget>(
@@ -84,18 +89,22 @@ class AppRouter {
   }) =>
       Navigator.push<T>(
         AppRouter.context,
-        _RouteTransition().zoom<T, W>(builder, fullscreenDialog: fullscreenDialog, maintainState: maintainState),
+        _RouteTransition().zoom<T, W>(builder,
+            fullscreenDialog: fullscreenDialog, maintainState: maintainState),
       );
 
   /// Pushes a new route while removing all others.
-  static Future<T?> pushRoot<T, W extends Widget>(RouteWidgetBuilder<W> builder) => Navigator.pushAndRemoveUntil(
+  static Future<T?> pushRoot<T, W extends Widget>(
+          RouteWidgetBuilder<W> builder) =>
+      Navigator.pushAndRemoveUntil(
         context,
         _RouteTransition().zoom<T, W>(builder),
         (route) => false,
       );
 
   /// Pushes a new route while removing all others (no animation).
-  static Future<T?> pushNoAnimation<T, W extends Widget>(RouteWidgetBuilder<W> builder) {
+  static Future<T?> pushNoAnimation<T, W extends Widget>(
+      RouteWidgetBuilder<W> builder) {
     return Navigator.pushAndRemoveUntil(
       context,
       _RouteTransition().noAnimation<T, W>(builder),
@@ -117,7 +126,8 @@ class AppRoute<T> {
 
   push({Map<String, T>? data}) => AppRouter.push(() => page(data));
 
-  pushAsFullScreenDialog({Map<String, T>? data}) => AppRouter.push(() => page(data), fullscreenDialog: true);
+  pushAsFullScreenDialog({Map<String, T>? data}) =>
+      AppRouter.push(() => page(data), fullscreenDialog: true);
 }
 
 /// The widget should use the implicit context declared in a separate widget.
@@ -140,19 +150,23 @@ class _RouterHomeState<W extends Widget> extends State<RouterHome> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      AppRouter.pushNoAnimation<void, W>(widget.builder as RouteWidgetBuilder<W>);
+      AppRouter.pushNoAnimation<void, W>(
+          widget.builder as RouteWidgetBuilder<W>);
     });
   }
 
   @override
-  Widget build(BuildContext context) => ColoredBox(color: Theme.of(context).scaffoldBackgroundColor);
+  Widget build(BuildContext context) =>
+      ColoredBox(color: Theme.of(context).scaffoldBackgroundColor);
 }
 
 /// Default flutter transition
 class _RouteTransition {
   const _RouteTransition();
 
-  PageRoute<T> noAnimation<T, W extends Widget>(RouteWidgetBuilder<W> builder) => PageRouteBuilder(
+  PageRoute<T> noAnimation<T, W extends Widget>(
+          RouteWidgetBuilder<W> builder) =>
+      PageRouteBuilder(
         pageBuilder: (context, a1, a2) => builder(),
         settings: RouteSettings(name: W.toString()),
         transitionDuration: Duration.zero,

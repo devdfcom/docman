@@ -27,7 +27,8 @@ enum ToastColor {
 }
 
 class ToastHelper {
-  static GlobalKey<ScaffoldMessengerState> messengerKey = GlobalKey<ScaffoldMessengerState>();
+  static GlobalKey<ScaffoldMessengerState> messengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
   static const defaultSeconds = 5;
 

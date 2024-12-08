@@ -29,5 +29,6 @@ class EventsChannel extends PlatformInterface {
   final eventsChannel = const EventChannel('devdf.plugins/docman/events');
 
   /// Listen to events from the platform.
-  Stream<dynamic> listen([dynamic args]) => eventsChannel.receiveBroadcastStream(args);
+  Stream<dynamic> listen([dynamic args]) =>
+      eventsChannel.receiveBroadcastStream(args);
 }

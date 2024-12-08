@@ -19,12 +19,14 @@ class MainPage extends StatelessWidget {
                 children: [
                   ListTile(
                     title: const Text('Picker'),
-                    subtitle: const Text('Used to pick directory, files, documents, media'),
+                    subtitle: const Text(
+                        'Used to pick directory, files, documents, media'),
                     onTap: () => AppRouter.picker.push(),
                   ),
                   ListTile(
                     title: Text('DocumentFile'),
-                    subtitle: Text('Representation of Android DocumentFile class'),
+                    subtitle:
+                        Text('Representation of Android DocumentFile class'),
                     onTap: () => AppRouter.documentFile.push(),
                   ),
                   ListTile(
@@ -68,7 +70,11 @@ class MainPage extends StatelessWidget {
               subTitle: 'Returns the external files directory of the app',
               result: AppDir.filesExt?.path ?? 'Not Available',
             ),
-          ], header: ListTileHeaderDense(title: 'Application Directories:', icon: Icons.folder, paddingX: 15)),
+          ],
+              header: ListTileHeaderDense(
+                  title: 'Application Directories:',
+                  icon: Icons.folder,
+                  paddingX: 15)),
         ],
       );
 }

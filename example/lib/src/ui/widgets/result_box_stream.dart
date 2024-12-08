@@ -130,8 +130,9 @@ class _ResultBoxStreamState extends State<ResultBoxStream> {
                 controller: _listScrollController,
                 primary: false,
                 itemCount: _streamResult.isEmpty ? 1 : _streamResult.length,
-                itemBuilder: (context, index) =>
-                    _streamResult.isEmpty ? _defaultListItem : _resizableWidget(_streamResult[index]),
+                itemBuilder: (context, index) => _streamResult.isEmpty
+                    ? _defaultListItem
+                    : _resizableWidget(_streamResult[index]),
               ),
             ),
           ),
