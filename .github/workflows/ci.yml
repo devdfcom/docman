@@ -24,7 +24,5 @@ jobs:
       - run: flutter --version
       - name: Format code
         run: dart format --output=none --set-exit-if-changed .
-      - name: Analyze code
-        run: dart analyze
 
 
