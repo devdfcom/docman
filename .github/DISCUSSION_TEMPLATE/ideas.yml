@@ -1,5 +1,5 @@
-title: "[FEATURE] <title>"
-labels: ["enhancement"]
+title: "[FEATURE] Enter title here"
+labels: [ "enhancement" ]
 body:
   - type: checkboxes
     attributes:
