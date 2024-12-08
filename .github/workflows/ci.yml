@@ -13,7 +13,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -22,7 +21,7 @@ jobs:
       - name: Format code
         run: dart format --output=none --set-exit-if-changed .
       # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Dar Analyze
+      - name: Dart Analyze
         run: dart analyze
 
 

@@ -36,7 +36,20 @@ class _PickerPageState extends State<PickerPage> {
     'application/pdf',
     'text/plain'
   ];
-  final _exampleExtensions = ['jpg', 'png', 'gif', 'webp', 'pdf', 'docx', 'xlsx', 'pptx', 'txt', 'mp3', 'mp4', 'apk'];
+  final _exampleExtensions = [
+    'jpg',
+    'png',
+    'gif',
+    'webp',
+    'pdf',
+    'docx',
+    'xlsx',
+    'pptx',
+    'txt',
+    'mp3',
+    'mp4',
+    'apk'
+  ];
 
   ///MimeTypes and Extensions selected by the user
   List<String> _mimeTypes = [];
@@ -79,11 +92,13 @@ class _PickerPageState extends State<PickerPage> {
       });
 
   //Set result
-  void _onResult(List<MethodApiEntry> entries) => entries.map((e) => MethodApiWidget(e)).forEach(_streamController.add);
+  void _onResult(List<MethodApiEntry> entries) =>
+      entries.map((e) => MethodApiWidget(e)).forEach(_streamController.add);
 
   void _setLocalOnly(bool value) => setState(() => _localOnly = value);
 
-  void _setGrantPermissions(bool value) => setState(() => _grantPermissions = value);
+  void _setGrantPermissions(bool value) =>
+      setState(() => _grantPermissions = value);
 
   /// Picker Filter Params
   void _setMimeTypes(List<String> mimes) => setState(() => _mimeTypes = mimes);
@@ -117,7 +132,8 @@ class _PickerPageState extends State<PickerPage> {
         if (_imageQuality < 0 || _imageQuality > 100) _imageQuality = 100;
       });
 
-  void _setUseVisualMediaPicker(bool value) => setState(() => _useVisualMediaPicker = value);
+  void _setUseVisualMediaPicker(bool value) =>
+      setState(() => _useVisualMediaPicker = value);
 
   Future<void> _pickDirectory() async {
     final dir = await DocMan.pick.directory(initDir: _initDir);
@@ -158,16 +174,21 @@ class _PickerPageState extends State<PickerPage> {
 
     //1. Build Picker Method entry
     final methodEntry = MethodApiEntry(
-      name: 'DocMan.pick.documents(initDir: $_initDir, mimeTypes: $_mimeTypes, extensions: $_extensions, '
+      name:
+          'DocMan.pick.documents(initDir: $_initDir, mimeTypes: $_mimeTypes, extensions: $_extensions, '
           'localOnly: $_localOnly, grantPermissions: $_grantPermissions, limit: $_limit)',
       title: exception != null ? exception.title : 'Pick Documents',
-      subTitle: exception != null ? exception.subTitle : 'Returns the picked documents as a list of `DocumentFile`',
+      subTitle: exception != null
+          ? exception.subTitle
+          : 'Returns the picked documents as a list of `DocumentFile`',
       result: exception?.result ?? (_limitResultEmpty ? '[]' : null),
       isResultOk: exception == null,
     );
 
-    final List<MethodApiEntry> docsEntries =
-        docs.map((doc) => MethodApiEntry(title: 'DocumentFile: ${doc.name}', result: doc.toString())).toList();
+    final List<MethodApiEntry> docsEntries = docs
+        .map((doc) => MethodApiEntry(
+            title: 'DocumentFile: ${doc.name}', result: doc.toString()))
+        .toList();
 
     //2. Set the result
     setState(() => _onResult([methodEntry, ...docsEntries]));
@@ -206,8 +227,9 @@ class _PickerPageState extends State<PickerPage> {
     );
     //2. Convert list of files to list of MethodApiEntry
     final List<MethodApiEntry> filesEntries = files
-        .map((file) =>
-            MethodApiEntry(title: 'File: ${file.path.split(Platform.pathSeparator).last}', result: _fileString(file)))
+        .map((file) => MethodApiEntry(
+            title: 'File: ${file.path.split(Platform.pathSeparator).last}',
+            result: _fileString(file)))
         .toList();
     //3. Set the result
     setState(() => _onResult([methodEntry, ...filesEntries]));
@@ -239,14 +261,17 @@ class _PickerPageState extends State<PickerPage> {
       name:
           'DocMan.pick.visualMedia(initDir: $_initDir, mimeTypes: $_mimeTypes, extensions: $_extensions, localOnly: $_localOnly, limit: $_limit, imageQuality: $_imageQuality, useVisualMediaPicker: $_useVisualMediaPicker)',
       title: exception != null ? exception.title : 'Pick Visual Media',
-      subTitle: exception != null ? exception.subTitle : 'Returns the picked media files as a list of `File`',
+      subTitle: exception != null
+          ? exception.subTitle
+          : 'Returns the picked media files as a list of `File`',
       result: exception?.result,
       isResultOk: exception == null,
     );
     //3. Convert list of files to list of MethodApiEntry
     final List<MethodApiEntry> filesEntries = files
-        .map((file) =>
-            MethodApiEntry(title: 'File: ${file.path.split(Platform.pathSeparator).last}', result: _fileString(file)))
+        .map((file) => MethodApiEntry(
+            title: 'File: ${file.path.split(Platform.pathSeparator).last}',
+            result: _fileString(file)))
         .toList();
     //4. Set the result
     setState(() => _onResult([methodEntry, ...filesEntries]));
@@ -275,13 +300,15 @@ class _PickerPageState extends State<PickerPage> {
       !_grantPermissions;
 
   Widget _filterTab(BuildContext context) => Column(children: [
-        ListTileHeaderDense(title: 'Picker Filter Params', icon: Icons.settings),
+        ListTileHeaderDense(
+            title: 'Picker Filter Params', icon: Icons.settings),
         Card(
           clipBehavior: Clip.antiAlias,
           child: Column(children: [
             ParamBool(
               title: 'localOnly',
-              subTitle: 'If true, only local files will be shown, no cloud files.',
+              subTitle:
+                  'If true, only local files will be shown, no cloud files.',
               value: _localOnly,
               onUpdate: _setLocalOnly,
             ),
@@ -358,7 +385,8 @@ class _PickerPageState extends State<PickerPage> {
       ]);
 
   Widget _mediaTab(BuildContext context) => Column(children: [
-        ListTileHeaderDense(title: 'Visual Picker Media Params', icon: Icons.image),
+        ListTileHeaderDense(
+            title: 'Visual Picker Media Params', icon: Icons.image),
         Card(
           clipBehavior: Clip.antiAlias,
           child: Column(children: [
@@ -374,7 +402,9 @@ class _PickerPageState extends State<PickerPage> {
                       return 'ImageQuality is required';
                     }
                     final imageQuality = int.tryParse(value);
-                    if (imageQuality == null || imageQuality < 0 || imageQuality > 100) {
+                    if (imageQuality == null ||
+                        imageQuality < 0 ||
+                        imageQuality > 100) {
                       return 'Quality must be between 0 and 100';
                     }
                     return null;
@@ -393,66 +423,93 @@ class _PickerPageState extends State<PickerPage> {
   @override
   Widget build(BuildContext context) => ListPage(
         title: 'Picker Demo',
-        actions: [IconButton(icon: const Icon(Icons.restore), onPressed: _resetState, tooltip: 'Reset Picker')],
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.restore),
+              onPressed: _resetState,
+              tooltip: 'Reset Picker')
+        ],
         children: [
           Expanded(
             child: SingleChildScrollViewWithScrollBar(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                ListTileHeaderDense(title: 'Pick Actions', icon: Icons.play_arrow),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Column(children: [
-                      Row(children: [
-                        Expanded(
-                          child: Wrap(
-                            spacing: 5.0,
-                            runSpacing: 0.0,
-                            alignment: WrapAlignment.start,
-                            crossAxisAlignment: WrapCrossAlignment.start,
-                            children: [
-                              MethodActionButton(
-                                  title: 'Directory', onPressed: _pickDirectory, active: _activeDirectoryButton),
-                              MethodActionButton(
-                                  title: 'Documents', onPressed: _pickDocuments, active: _imageQuality == 100),
-                              MethodActionButton(
-                                title: 'Files',
-                                onPressed: _pickFiles,
-                                active: _imageQuality == 100 && !_grantPermissions,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListTileHeaderDense(
+                        title: 'Pick Actions', icon: Icons.play_arrow),
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        child: Column(children: [
+                          Row(children: [
+                            Expanded(
+                              child: Wrap(
+                                spacing: 5.0,
+                                runSpacing: 0.0,
+                                alignment: WrapAlignment.start,
+                                crossAxisAlignment: WrapCrossAlignment.start,
+                                children: [
+                                  MethodActionButton(
+                                      title: 'Directory',
+                                      onPressed: _pickDirectory,
+                                      active: _activeDirectoryButton),
+                                  MethodActionButton(
+                                      title: 'Documents',
+                                      onPressed: _pickDocuments,
+                                      active: _imageQuality == 100),
+                                  MethodActionButton(
+                                    title: 'Files',
+                                    onPressed: _pickFiles,
+                                    active: _imageQuality == 100 &&
+                                        !_grantPermissions,
+                                  ),
+                                  MethodActionButton(
+                                      title: 'VisualMedia',
+                                      onPressed: _pickMedia,
+                                      active: !_grantPermissions),
+                                ],
                               ),
-                              MethodActionButton(
-                                  title: 'VisualMedia', onPressed: _pickMedia, active: !_grantPermissions),
-                            ],
-                          ),
-                        )
-                      ])
-                    ]),
-                  ),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: SegmentedButton(
-                    segments: [
-                      ButtonSegment(value: 0, label: Text('Filters'), icon: Icon(Icons.filter_alt_outlined)),
-                      ButtonSegment(value: 1, label: Text('Limit'), icon: Icon(Icons.numbers)),
-                      ButtonSegment(value: 2, label: Text('Media'), icon: Icon(Icons.image)),
-                    ],
-                    showSelectedIcon: false,
-                    selected: _selectedIndex,
-                    onSelectionChanged: (value) => setState(() => _selectedIndex = value),
-                  ),
-                ),
-                Builder(
-                    builder: (__) => switch (_selectedIndex.first) {
-                          1 => _limitTab(context),
-                          2 => _mediaTab(context),
-                          _ => _filterTab(context)
-                        })
-              ]),
+                            )
+                          ])
+                        ]),
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: SegmentedButton(
+                        segments: [
+                          ButtonSegment(
+                              value: 0,
+                              label: Text('Filters'),
+                              icon: Icon(Icons.filter_alt_outlined)),
+                          ButtonSegment(
+                              value: 1,
+                              label: Text('Limit'),
+                              icon: Icon(Icons.numbers)),
+                          ButtonSegment(
+                              value: 2,
+                              label: Text('Media'),
+                              icon: Icon(Icons.image)),
+                        ],
+                        showSelectedIcon: false,
+                        selected: _selectedIndex,
+                        onSelectionChanged: (value) =>
+                            setState(() => _selectedIndex = value),
+                      ),
+                    ),
+                    Builder(
+                        builder: (__) => switch (_selectedIndex.first) {
+                              1 => _limitTab(context),
+                              2 => _mediaTab(context),
+                              _ => _filterTab(context)
+                            })
+                  ]),
             ),
           ),
           SizedBox(height: 10),
-          ResultBoxStream(streamController: _streamController, resetAll: _resetAll),
+          ResultBoxStream(
+              streamController: _streamController, resetAll: _resetAll),
         ],
       );
 }
