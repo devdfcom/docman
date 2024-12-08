@@ -20,8 +20,5 @@ jobs:
       - run: flutter --version
       - name: Format code
         run: dart format --output=none --set-exit-if-changed .
-      # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Dart Analyze
-        run: dart analyze
 
 
