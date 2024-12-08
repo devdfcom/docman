@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'
-    show FilteringTextInputFormatter, TextInputFormatter;
+import 'package:flutter/services.dart' show FilteringTextInputFormatter, TextInputFormatter;
 
 class MethodParamInput extends StatelessWidget {
   const MethodParamInput({
@@ -37,12 +36,9 @@ class MethodParamInput extends StatelessWidget {
 
   final bool numbersOnly;
 
-  TextInputFormatter? get _textOnly => textOnly
-      ? FilteringTextInputFormatter.allow(RegExp("[a-zA-Zа-яА-Я ]"))
-      : null;
+  TextInputFormatter? get _textOnly => textOnly ? FilteringTextInputFormatter.allow(RegExp("[a-zA-Zа-яА-Я ]")) : null;
 
-  TextInputFormatter? get _numbersOnly =>
-      numbersOnly ? FilteringTextInputFormatter.digitsOnly : null;
+  TextInputFormatter? get _numbersOnly => numbersOnly ? FilteringTextInputFormatter.digitsOnly : null;
 
   ///Collecting all TextInputFormatters in list even with null & filter those.
   List<TextInputFormatter> get _inputFormatters => [
@@ -59,12 +55,12 @@ class MethodParamInput extends StatelessWidget {
       controller: textController,
       // The validator receives the text that the user has entered.
       validator: validator,
-      autovalidateMode:
-          validator != null ? AutovalidateMode.onUserInteraction : null,
+      autovalidateMode: validator != null ? AutovalidateMode.onUserInteraction : null,
       onTapOutside: (event) {
         if (validator != null) {
-          if (validator!(textController.text) == null)
+          if (validator!(textController.text) == null) {
             onSaved(textController.text);
+          }
         } else {
           onSaved(textController.text);
         }
