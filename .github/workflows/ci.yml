@@ -10,15 +10,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Get & Format & Analyze
-
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+      # Make sure the stable version of Flutter is available
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: stable
+          channel: "stable"
+          architecture: x64
+          cache: true
       - run: flutter --version
       - name: Format code
         run: dart format --output=none --set-exit-if-changed .
+      - name: Analyze code
+        run: dart analyze
 
 
