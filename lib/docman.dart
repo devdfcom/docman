@@ -8,12 +8,13 @@ export 'src/data/permission.dart';
 
 /// Export main entry point
 export 'src/docman.dart';
-export 'src/exceptions/app_dir_path.dart';
 
 /// Export exceptions
+export 'src/exceptions/app_dir_path.dart';
 export 'src/exceptions/common_exceptions.dart';
 export 'src/exceptions/docman_base_exception.dart';
 export 'src/exceptions/document_file_exception.dart';
+export 'src/exceptions/permissions_exceptions.dart';
 export 'src/exceptions/picker_exceptions.dart';
 
 /// Export extensions
