@@ -14,8 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dart-lang/setup-dart@v1
-      - name: Get dependencies
-        run: flutter pub get
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter --version
       - name: Format code
         run: dart format --output=none --set-exit-if-changed .
       # Consider passing '--fatal-infos' for slightly stricter analysis.
