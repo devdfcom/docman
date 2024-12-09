@@ -515,7 +515,7 @@ Like `open`, `share`, `saveTo` methods. All methods are called through Activity 
         file.saveTo(
           initDir: 'content uri to start from', //optional
           localOnly: true,
-          deleteOriginal: true,
+          deleteSource: true,
         );
     ```
 
