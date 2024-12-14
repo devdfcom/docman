@@ -1,4 +1,3 @@
-title: "[FEATURE] Enter title here"
 labels: [ "enhancement" ]
 body:
   - type: checkboxes
