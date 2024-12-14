@@ -9,13 +9,9 @@ class ResultBox extends StatelessWidget {
   final List<Widget> children;
   final VoidCallback? onClear;
 
-  factory ResultBox.fromMethods(List<MethodApiEntry> methods,
-          {Widget? header, VoidCallback? onClear}) =>
-      ResultBox(
+  factory ResultBox.fromMethods(List<MethodApiEntry> methods, {Widget? header, VoidCallback? onClear}) => ResultBox(
         onClear: onClear,
-        children: [header, ...methods.map((m) => MethodApiWidget(m))]
-            .nonNulls
-            .toList(),
+        children: [header, ...methods.map((m) => MethodApiWidget(m))].nonNulls.toList(),
       );
 
   List<Widget> _defaultList() => <Widget>[
@@ -37,7 +33,7 @@ class ResultBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withAlpha((255.0 * 0.5).round()),
               spreadRadius: 1,
               blurRadius: 5,
               offset: Offset(0, 3),

@@ -27,8 +27,7 @@ class PickerParamLimitWidget extends StatelessWidget {
   final Function(bool) setLimitResultRestart;
   final VoidCallback resetLimit;
 
-  String get _properTitle =>
-      limit > 1 ? 'Maximum items to pick: $limit' : 'Single Selection';
+  String get _properTitle => limit > 1 ? 'Maximum items to pick: $limit' : 'Single Selection';
 
   String get _properSubtitle {
     //1. Check if limit > 1
@@ -61,33 +60,24 @@ class PickerParamLimitWidget extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             SelectableText(_paramNameText,
-                style: TextStyle(
-                    color: Colors.red[700],
-                    fontSize: 11,
-                    fontStyle: FontStyle.italic,
-                    height: 1.2)),
-            Text(':',
-                style:
-                    TextStyle(color: Colors.black, fontSize: 11, height: 1.2)),
+                style: TextStyle(color: Colors.red[700], fontSize: 11, fontStyle: FontStyle.italic, height: 1.2)),
+            Text(':', style: TextStyle(color: Colors.black, fontSize: 11, height: 1.2)),
           ],
         ),
       );
 
-  Widget get _paramResult =>
-      Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+  Widget get _paramResult => Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         _paramNameWidget,
         SizedBox(width: 5),
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white70.withOpacity(0.2),
+              color: Colors.white70.withAlpha((255.0 * 0.2).round()),
               borderRadius: BorderRadius.circular(5),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
             margin: const EdgeInsets.only(bottom: 5, right: 5),
-            child: SelectableText(_paramResultText,
-                style:
-                    TextStyle(color: Colors.white, fontSize: 12, height: 1.2)),
+            child: SelectableText(_paramResultText, style: TextStyle(color: Colors.white, fontSize: 12, height: 1.2)),
           ),
         ),
       ]);
@@ -104,13 +94,10 @@ class PickerParamLimitWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+  Widget build(BuildContext context) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         ExpansionTile(
-          title:
-              Text(_properTitle, style: TextStyle(fontSize: 14, height: 1.2)),
-          subtitle: Text(_properSubtitle,
-              style: TextStyle(fontSize: 11, height: 1.2)),
+          title: Text(_properTitle, style: TextStyle(fontSize: 14, height: 1.2)),
+          subtitle: Text(_properSubtitle, style: TextStyle(fontSize: 11, height: 1.2)),
           trailing: IconButton(
             icon: Icon(Icons.clear_all),
             color: !_isDisabled ? Colors.red[700] : null,

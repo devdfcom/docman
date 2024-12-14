@@ -83,14 +83,8 @@ class _ParamChipsSelectorState extends State<ParamChipsSelector> {
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             SelectableText(_paramNameText,
-                style: TextStyle(
-                    color: Colors.red[700],
-                    fontSize: 11,
-                    fontStyle: FontStyle.italic,
-                    height: 1.2)),
-            Text(':',
-                style:
-                    TextStyle(color: Colors.black, fontSize: 11, height: 1.2)),
+                style: TextStyle(color: Colors.red[700], fontSize: 11, fontStyle: FontStyle.italic, height: 1.2)),
+            Text(':', style: TextStyle(color: Colors.black, fontSize: 11, height: 1.2)),
           ],
         ),
       );
@@ -102,14 +96,13 @@ class _ParamChipsSelectorState extends State<ParamChipsSelector> {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white70.withOpacity(0.2),
+                color: Colors.white70.withAlpha((255.0 * 0.2).round()),
                 borderRadius: BorderRadius.circular(5),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
               margin: const EdgeInsets.only(bottom: 5, right: 5),
               child: SelectableText('${widget.selected}',
-                  style: TextStyle(
-                      color: Colors.white, fontSize: 12, height: 1.2)),
+                  style: TextStyle(color: Colors.white, fontSize: 12, height: 1.2)),
             ),
           ),
         ])
@@ -118,8 +111,7 @@ class _ParamChipsSelectorState extends State<ParamChipsSelector> {
   Widget get _clearAction => IconButton(
         icon: Icon(Icons.clear_all),
         color: widget.selected.isNotEmpty ? Colors.red[700] : null,
-        onPressed:
-            widget.selected.isNotEmpty ? () => widget.onUpdate([]) : null,
+        onPressed: widget.selected.isNotEmpty ? () => widget.onUpdate([]) : null,
         tooltip: widget.clearTooltip ?? 'Clear All',
       );
 
@@ -131,12 +123,10 @@ class _ParamChipsSelectorState extends State<ParamChipsSelector> {
       );
 
   @override
-  Widget build(BuildContext context) =>
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+  Widget build(BuildContext context) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         ExpansionTile(
           controller: _controller,
-          title:
-              Text(widget.title, style: TextStyle(fontSize: 14, height: 1.2)),
+          title: Text(widget.title, style: TextStyle(fontSize: 14, height: 1.2)),
           subtitle: widget.subTitle,
           trailing: widget.action != null ? _actionWidget : _clearAction,
           dense: true,
@@ -148,10 +138,7 @@ class _ParamChipsSelectorState extends State<ParamChipsSelector> {
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           tilePadding: EdgeInsets.zero,
           initiallyExpanded: widget.isExpanded,
-          children: [
-            Wrap(spacing: 5, runSpacing: 0, children: _chips),
-            SizedBox(height: 5)
-          ],
+          children: [Wrap(spacing: 5, runSpacing: 0, children: _chips), SizedBox(height: 5)],
         ),
         _paramResult,
       ]);

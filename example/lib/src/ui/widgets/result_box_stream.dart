@@ -106,7 +106,7 @@ class _ResultBoxStreamState extends State<ResultBoxStream> {
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withAlpha((255.0 * 0.5).round()),
                 spreadRadius: 1,
                 blurRadius: 5,
                 offset: Offset(0, 3),
@@ -130,9 +130,8 @@ class _ResultBoxStreamState extends State<ResultBoxStream> {
                 controller: _listScrollController,
                 primary: false,
                 itemCount: _streamResult.isEmpty ? 1 : _streamResult.length,
-                itemBuilder: (context, index) => _streamResult.isEmpty
-                    ? _defaultListItem
-                    : _resizableWidget(_streamResult[index]),
+                itemBuilder: (context, index) =>
+                    _streamResult.isEmpty ? _defaultListItem : _resizableWidget(_streamResult[index]),
               ),
             ),
           ),
