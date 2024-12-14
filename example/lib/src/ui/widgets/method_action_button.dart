@@ -21,26 +21,34 @@ class MethodActionButton extends StatelessWidget {
 
   Widget _descriptionWidget(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
-          Flexible(child: description!),
-        ]),
+        child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(child: description!),
+            ]),
       );
 
-  Widget _iconButton(BuildContext context, {VoidCallback? onPress}) => IconButton(
+  Widget _iconButton(BuildContext context, {VoidCallback? onPress}) =>
+      IconButton(
         onPressed: onPress,
         icon: Icon(iconButton),
         visualDensity: VisualDensity.compact,
         color: iconColor,
       );
 
-  Widget _elevateButton(BuildContext context, {VoidCallback? onPress}) => ElevatedButton(
+  Widget _elevateButton(BuildContext context, {VoidCallback? onPress}) =>
+      ElevatedButton(
         onPressed: onPress,
         style: ElevatedButton.styleFrom(
-          foregroundColor:
-              description != null ? Theme.of(context).colorScheme.onSecondaryContainer : Theme.of(context).primaryColor,
+          foregroundColor: description != null
+              ? Theme.of(context).colorScheme.onSecondaryContainer
+              : Theme.of(context).primaryColor,
           backgroundColor: description != null
               ? Theme.of(context).colorScheme.secondaryContainer
-              : Theme.of(context).primaryColorDark.withAlpha((255.0 * 0.1).round()),
+              : Theme.of(context)
+                  .primaryColorDark
+                  .withAlpha((255.0 * 0.1).round()),
           visualDensity: VisualDensity.compact,
           padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
@@ -60,8 +68,10 @@ class MethodActionButton extends StatelessWidget {
   Widget _buttonWidget(BuildContext context) => ValueListenableBuilder<bool>(
         valueListenable: isProcessing,
         builder: (context, processing, child) => iconButton != null
-            ? _iconButton(context, onPress: processing || !active ? null : _onPressed)
-            : _elevateButton(context, onPress: processing || !active ? null : _onPressed),
+            ? _iconButton(context,
+                onPress: processing || !active ? null : _onPressed)
+            : _elevateButton(context,
+                onPress: processing || !active ? null : _onPressed),
       );
 
   @override

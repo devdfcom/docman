@@ -7,7 +7,12 @@ class MethodApiEntry {
   final String? result;
   final bool isResultOk;
 
-  MethodApiEntry({this.name, this.title, this.subTitle, this.result, this.isResultOk = true});
+  MethodApiEntry(
+      {this.name,
+      this.title,
+      this.subTitle,
+      this.result,
+      this.isResultOk = true});
 }
 
 class MethodApiWidget extends StatelessWidget {
@@ -20,20 +25,26 @@ class MethodApiWidget extends StatelessWidget {
 
   Widget _nameWidget(BuildContext context) => entry.name != null
       ? Container(
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
           margin: const EdgeInsets.symmetric(vertical: 2),
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
-            Icon(Icons.code, color: Colors.black, size: Theme.of(context).textTheme.bodyMedium?.fontSize),
-            SizedBox(width: 5),
-            Flexible(
-              child: SelectableText(entry.name!,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.red[700],
-                        fontSize: 11,
-                      )),
-            ),
-          ]),
+          child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.code,
+                    color: Colors.black,
+                    size: Theme.of(context).textTheme.bodyMedium?.fontSize),
+                SizedBox(width: 5),
+                Flexible(
+                  child: SelectableText(entry.name!,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Colors.red[700],
+                            fontSize: 11,
+                          )),
+                ),
+              ]),
         )
       : SizedBox.shrink();
 
@@ -61,7 +72,11 @@ class MethodApiWidget extends StatelessWidget {
       ? Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Expanded(
               child: Text(entry.subTitle!,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white70), softWrap: true)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: Colors.white70),
+                  softWrap: true)),
         ])
       : SizedBox.shrink();
 
@@ -86,7 +101,9 @@ class MethodApiWidget extends StatelessWidget {
                           color: _resultSuccess ? Colors.white70 : Colors.red,
                           fontSize: 11,
                           fontStyle: FontStyle.italic,
-                          fontWeight: _resultSuccess ? FontWeight.normal : FontWeight.bold,
+                          fontWeight: _resultSuccess
+                              ? FontWeight.normal
+                              : FontWeight.bold,
                           height: 1.2,
                         ),
                     softWrap: true))
