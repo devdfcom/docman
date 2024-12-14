@@ -1,6 +1,8 @@
 import 'package:docman/src/exceptions/docman_base_exception.dart';
 
 /// Exception thrown when platform tries to get path for a directory.
+///
+/// {@category Exceptions}
 class AppDirPathException implements DocManException {
   /// The name of the directory for which the path is being requested.
   final String dirName;
@@ -22,6 +24,8 @@ class AppDirPathException implements DocManException {
 }
 
 /// Exception thrown when platform tries to perform unimplemented action.
+///
+/// {@category Exceptions}
 class AppDirActionException implements DocManException {
   /// The name of the action that is not implemented.
   final String? action;

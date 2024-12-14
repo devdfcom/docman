@@ -15,6 +15,6 @@ dartdoc:
     - "Exceptions"
   showUndocumentedCategories: true
   favicon: example/assets/images/favicon/android-chrome-192x192.png
-  footerText: [ example/assets/docs/sample.txt ]
+  footerText: [ example/assets/docs/footer.md ]
 
 
