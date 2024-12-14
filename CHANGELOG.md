@@ -1,3 +1,9 @@
+## 1.0.2
+
+* Fix: missed export of `PermissionsException` class
+* Example: updated deprecated `withOpacity` to `withAlpha`
+* Documentation fixes
+
 ## 1.0.1
 
 * Readme fixes
