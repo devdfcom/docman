@@ -4,6 +4,16 @@
 
     <application>
         <provider
+            android:name=".DocManDocumentsProvider"
+            android:authorities="${applicationId}.docman.documents"
+            android:grantUriPermissions="true"
+            android:exported="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS">
+            <intent-filter>
+                <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+            </intent-filter>
+        </provider>
+        <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.docman.files"
             android:grantUriPermissions="true"

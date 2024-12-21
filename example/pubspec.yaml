@@ -25,4 +25,7 @@ flutter:
     - assets/pdf/
     - assets/images/
     - assets/video/
+    # This is required, if you want to use DocumentsProvider on Android.
+    # Contains the provider configuration file.
+    - assets/provider.json
   uses-material-design: true

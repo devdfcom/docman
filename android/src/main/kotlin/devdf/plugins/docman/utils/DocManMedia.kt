@@ -109,7 +109,6 @@ class DocManMedia {
             return outputStream
         }
 
-
         /** Try to get image thumbnail */
         private fun imageThumbnail(
             doc: DocumentFile,
@@ -136,7 +135,7 @@ class DocManMedia {
         }.getOrNull()
 
         /** Try to get video thumbnail */
-        private fun videoThumbnail(
+        fun videoThumbnail(
             doc: DocumentFile,
             size: Size,
             context: Context
@@ -175,7 +174,7 @@ class DocManMedia {
         }.getOrNull()
 
         /** Try to get pdf thumbnail */
-        private fun pdfThumbnail(
+        fun pdfThumbnail(
             doc: DocumentFile,
             size: Size,
             context: Context

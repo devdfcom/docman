@@ -1,6 +1,7 @@
 package devdf.plugins.docman.extensions
 
 import android.net.Uri
+import android.webkit.MimeTypeMap
 import java.io.File
 
 
@@ -21,3 +22,8 @@ fun String.toUri(): Uri {
 /** Sanitize string to be used as a file name */
 fun String.asFileName(): String =
     this.replace(Regex("[\\\\/:*?\"<>|\\[\\]\\s]"), "_")
+
+fun String.getMimeTypeByExtension(): String {
+    return MimeTypeMap.getSingleton().getMimeTypeFromExtension(substringAfterLast('.', ""))
+        ?: "application/octet-stream"
+}

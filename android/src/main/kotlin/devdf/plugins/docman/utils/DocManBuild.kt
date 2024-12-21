@@ -58,5 +58,13 @@ class DocManBuild {
         /** Can use `ContentResolver.loadThumbnail` */
         @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)
         fun loadThumbnail(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+
+        /** Can use `DocumentsContract.Document.FLAG_SUPPORTS_MOVE` */
+        @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N)
+        fun supportsMoveCopyFlag(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+
+        /** Can use `DocumentsContract.Root.FLAG_EMPTY` */
+        @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)
+        fun supportsRootEmptyFlag(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
     }
 }

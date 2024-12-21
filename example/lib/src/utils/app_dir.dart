@@ -1,4 +1,4 @@
-import 'dart:io' show Directory;
+import 'dart:io' show Directory, Platform;
 
 import 'package:docman/docman.dart';
 
@@ -32,6 +32,9 @@ class AppDir {
   /// The external directory for application documents (optional).
   static late Directory? filesExt;
 
+  /// The directory used as root for `Documents Provider` on Android.
+  static late Directory provider;
+
   /// Initializes the application directories.
   ///
   /// This method sets up the directories for application documents, temporary files,
@@ -45,6 +48,13 @@ class AppDir {
     data = (await DocMan.dir.data())!;
     cacheExt = await DocMan.dir.cacheExt();
     filesExt = await DocMan.dir.filesExt();
+    // Initialize the provider directory for future use in the app
+    // By this path, you can add files & dirs to the `Documents Provider`
+    provider = Directory([(filesExt?.path ?? files.path), 'nested/provider_folder'].join(Platform.pathSeparator));
+
+    //If its nested path create it
+    await provider.create(recursive: true);
+
     return _instance;
   }
 

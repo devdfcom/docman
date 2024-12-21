@@ -33,10 +33,10 @@ class DocManPlugin : FlutterPlugin, ActivityAware {
     var messenger: BinaryMessenger? = null
 
 
-    override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         //1. Setting the context and messenger
-        context = flutterPluginBinding.applicationContext
-        messenger = flutterPluginBinding.binaryMessenger
+        context = binding.applicationContext
+        messenger = binding.binaryMessenger
         //2. Attaching the activity
         docManActivity.onAttach()
         //3. Attaching the actions

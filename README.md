@@ -13,6 +13,9 @@
 A Flutter plugin that simplifies file & directory operations on Android devices.
 Leveraging the Storage Access Framework (SAF) API,
 it provides seamless integration for files & directories operations, persisted permissions management, and more.
+Allows to set up own
+simple [DocumentsProvider](https://developer.android.com/reference/kotlin/android/provider/DocumentsProvider)
+for specific directory within your app's storage.
 
 ## 🚀 Features
 
@@ -24,6 +27,7 @@ it provides seamless integration for files & directories operations, persisted p
 - Separated actions that can be performed in the background, like with isolates or WorkManager.
 - Persisted permissions management.
 - No manifest permissions are required.
+- `DocumentsProvider` implementation.
 
 ## 🤖 Supported Android versions
 
@@ -94,10 +98,13 @@ All public classes and methods are well-documented.
     - [Action methods](#documentfile-action-methods)
     - 🧩 [DocumentThumbnail](#-documentthumbnail-class)
     - [Unsupported methods](#unsupported-methods)
-6. 🗃️ [**DocMan Exceptions**](#docman-exceptions)
-7. 📦 [**Changelog**](#-changelog)
-8. ⁉️ [**Help & Questions**](#help--questions)
-9. 🌱 [**Contributing**](#-contributing)
+6. 🗂️ [**DocumentsProvider**](#documents-provider) (🖼️ [*see examples*](#documents-provider-examples))
+    - [Setup DocumentsProvider](#setup-documentsprovider)
+    - [DocumentsProvider example](#provider-json-example)
+7. 🗃️ [**DocMan Exceptions**](#docman-exceptions)
+8. 📦 [**Changelog**](#-changelog)
+9. ⁉️ [**Help & Questions**](#help--questions)
+10. 🌱 [**Contributing**](#-contributing)
 
 <a name="installation"></a>
 
@@ -122,14 +129,16 @@ following methods:
 
 Allows picking a directory from the device storage. You can specify the initial directory to start from.
 
-> ⚠️ When picking directory, it also grants access to it.
+> [!WARNING]
+> When picking directory, it also grants access to it.
 > On **Android 11 (API level 30)** and higher it's <ins>***impossible***</ins> to grant access to **root directories of
 sdCard, download folder**, also it's <ins>***impossible***</ins> to select any file from:
 > **Android/data/** directory and all subdirectories, **Android/obb/** directory and all subdirectories.
 >
 > [All restrictions are described here at developer.android.com](https://developer.android.com/training/data-storage/shared/documents-files#document-tree-access-restrictions)
 
-> ⚠️ `initDir`: Option to set initial directory uri for picker is available since Android 8.0 (Api 26).
+> [!NOTE]
+> `initDir`: Option to set initial directory uri for picker is available since Android 8.0 (Api 26).
 > If the option is not available, the picker will start from the default directory.
 
 ```dart
@@ -141,7 +150,8 @@ Future<DocumentFile?> pickBackupDir() => DocMan.pick.directory(initDir: 'content
 Allows picking single or multiple documents. You can specify the initial directory to start from.
 Filter by MIME types & extensions, by location - only local files (no cloud providers etc.) or both.
 You can choose a limit strategy when picking multiple documents.
-Grant persisted permissions to the picked documents.
+Grant persisted permissions to the picked documents. The point of this is to get only the metadata of the documents,
+without copying them to the cache/files directory.
 
 ```dart
 Future<List<DocumentFile>> pickDocuments() =>
@@ -302,7 +312,8 @@ If the grant has already been persisted, taking it again will just update the gr
 You can instantiate a [DocManPermissionManager](/lib/src/utils/doc_man_permissions.dart) class
 or use the helper: `DocMan.perms` to manage permissions.
 
-> ⚠️ Persistable permissions have limitations:
+> [!CAUTION]
+> Persistable permissions have limitations:
 >  - Limited to **128** permissions per app for **Android 10** and below
 >  - Limited to **512** permissions per app for **Android 11** and above
 
@@ -456,8 +467,8 @@ The purpose of it is to get the file's metadata like name, size, mime type, last
 it without the need to copy each file in cache/files directory.
 All supported methods are divided in extensions grouped by channels (Action, Activity, Events).
 
-
-> ℹ️ Methods for directories are marked with `📁`, for files `📄`.
+> [!NOTE]
+> Methods for directories are marked with `📁`, for files `📄`.
 
 #### **Instantiate DocumentFile**
 
@@ -465,15 +476,16 @@ There are two ways to instantiate a `DocumentFile`:
 
 - From the uri (content://), saved previously, with persisted permission.
 
-  > ⛔ In rarely cases `DocumentFile` can be instantiated even if the uri doesn't have persisted permission.
-  For example uris like `content://media/external/file/106` cannot be instantiated directly,
-  but if the file was picked through (`DocMan.pick.visualMedia()` for example), it will be instantiated,
-  but most of the methods will throw an exception, you will be able only to read the file content.
-
   ```dart
   Future<DocumentFile?> backupDir() =>
       DocumentFile(uri: 'content://com.android.externalstorage.documents/tree/primary%3ADocMan').get();
   ```
+
+> [!CAUTION]
+> In rarely cases `DocumentFile` can be instantiated even if the uri doesn't have persisted permission.
+> For example uris like `content://media/external/file/106` cannot be instantiated directly,
+> but if the file was picked through (`DocMan.pick.visualMedia()` for example), it will be instantiated,
+> but most of the methods will throw an exception, you will be able only to read the file content.
 
 - From the app local `File.path` or `Directory.path`.
 
@@ -536,6 +548,8 @@ if it's a file, you can read it via stream as bytes or string.
         file.readAsString(charset: 'UTF-8', bufferSize: 1024, start: 0);
     ```
 
+<a name="documentfile-read-as-bytes"></a>
+
 - `readAsBytes` `📄` Read the file content as bytes stream.
 
   Can be used only on file & file must exist.
@@ -545,6 +559,8 @@ if it's a file, you can read it via stream as bytes or string.
     Stream<Uint8List> readAsBytes(DocumentFile file) =>
         file.readAsBytes(bufferSize: (1024 * 8), start: 0);
     ```
+
+<a name="list-documents-stream"></a>
 
 - `listDocumentsStream` `📁` List the documents in the directory as stream.
 
@@ -578,7 +594,7 @@ and can be performed in the background (with isolates or WorkManager).
     Future<Uint8List> readBytes(DocumentFile file) => file.read();
     ```
 
-  ℹ️ If file is big, it's better to use stream-based method `readAsBytes`.
+  ℹ️ If file is big, it's better to use stream-based method [readAsBytes](#documentfile-read-as-bytes).
 
 
 - `createDirectory` `📁` Create a new subdirectory with the specified name.
@@ -621,7 +637,7 @@ and can be performed in the background (with isolates or WorkManager).
     ```
 
   ℹ️ This method returns all documents in the directory, if list has many items,
-  it's better to use stream-based method `listDocumentsStream`.
+  it's better to use stream-based method [listDocumentsStream](#list-documents-stream).
 
 
 - `find` `📁` Find the document in the directory by name.
@@ -707,10 +723,11 @@ and can be performed in the background (with isolates or WorkManager).
     ```dart
     Future<DocumentThumbnail?> thumbnail(DocumentFile file) => file.thumbnail(width: 256, height: 256, quality: 70);
     ```
-
+  > [!NOTE]
   > ⚠️ Sometimes due to different document providers, thumbnail can have bigger dimensions, than requested.
   Some document providers may not support thumbnail generation.
 
+  > [!TIP]
   > ⚠️ If file is local image, only `jpg`, `png`, `webp`, `gif`
   types are currently supported for thumbnail generation, in all other cases support depends on the document provider.
 
@@ -732,6 +749,7 @@ It stores the `width`, `height` of the image, and the `bytes` (Uint8List) of the
 
 Information about currently (temporarily) unsupported methods in the plugin.
 
+> [!CAUTION]
 > ⚠️ Currently `📄` `rename` action was commented out due to the issue with the SAF API.
 > Very few Documents Providers support renaming files & after renaming, the document may not be found,
 > so it's better to use `copy` & `delete` actions instead.
@@ -750,6 +768,241 @@ Information about currently (temporarily) unsupported methods in the plugin.
 |                                   Picked Directory actions                                    |                                    Local Directory actions                                    |
 |:---------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
 | <img src="https://github.com/user-attachments/assets/f9e851c0-5e49-4a05-a122-909c188e530b" /> | <img src="https://github.com/user-attachments/assets/4c5158f3-b694-4ec0-8fb0-72a58bd61986" /> |
+
+</details>
+
+<hr />
+
+<a name="documents-provider"></a>
+
+## 🗂️ DocumentsProvider
+
+`DocMan` provides a way to set up a simple
+custom [DocumentsProvider](https://developer.android.com/reference/kotlin/android/provider/DocumentsProvider)
+for your app. The main purpose of this feature is to share app files & directories with other apps,
+by `System File Picker UI`. You provide the name of the directory,
+where your public files are stored. The plugin will create a custom DocumentsProvider for your app,
+that will be accessible by other apps. You can customize it, and set the permissions for the files & directories.
+
+> [!NOTE]
+> If you don't want to use the custom DocumentsProvider, you can just delete the `provider.json`,
+> if it exists, in the `assets` directory.
+
+> [!TIP]
+> When you perform any kind of action on files or directories in the provider directory,
+> Provider will reflect the changes in the System File Picker UI.
+
+#### **Setup DocumentsProvider**
+
+1. Create/Copy the `provider.json` file to the `assets` directory in your app.
+   You can find the example file in the [plugin's example app](/example/assets/provider.json).
+2. Update the `pubspec.yaml` file.
+
+    ```yaml
+    flutter:
+      assets:
+        - assets/provider.json
+    ```
+
+#### **DocumentsProvider configuration**
+
+All configuration is stored in the `assets/provider.json` file.
+
+> [!IMPORTANT]
+> Once you set up the provider, ***do not change any parameter dynamically***,
+> otherwise the provider will not work correctly.
+
+- `rootPath` The name of the directory where your public files are stored.
+  This ***parameter is required***. This is an entry point for the provider.
+  Directory will be created automatically, if it doesn't exist.
+  Plugin first will try to create the directory in the external storage (app files folder), if not available,
+  then in the internal storage (app data folder - which is `app_flutter/`)
+
+  Example values: `public_documents`, `provider`, `nested/public/path`.
+  ```json
+  {
+    "rootPath": "public_documents"
+  }
+  ```
+
+- `providerName` - The name of the provider that will be shown in the System UI,
+  if null it will use the app name. Do not set long name, it will be truncated.
+
+  ```json
+  {
+    "providerName": "DocMan Example"
+  }
+  ```
+
+- `providerSubtitle` - The subtitle of the provider that will be shown in the System UI, if null it will be hidden.
+
+  ```json
+  {
+    "providerSubtitle": "Documents & media files"
+  }
+  ```
+
+- `mimeTypes` - List of mime types that the provider supports. Set this to null to show provider in all scenarios.
+
+  ```json
+  {
+    "mimeTypes": ["image/*", "video/*"]
+  }
+  ```
+- `extensions` - List of file extensions that the provider supports. Set this to null to show provider in all scenarios.
+  ```json
+  {
+    "extensions": ["pdf", ".docx"]
+  }
+  ```
+
+  On the init, if you provide `mimeTypes` & `extensions`, the plugin will check if the platform supports them &
+  will combine in a single list & filter only supported types.
+
+> [!NOTE]
+> If you set `mimeTypes` for example to `["image/*"]`, when `System File Picker UI` is opened by any other
+> app, which also wants to get images, it will show your provider in list of providers. But remember if you set
+`mimeTypes` or `extensions` to specific types, but you store different types of files in the directory,
+> they will be also visible.
+
+> [!IMPORTANT]
+> **In short:** if you set `mimeTypes` or `extensions`,
+***you have to store only files of these types in the provider directory***.
+
+- `showInSystemUI` - Whether to show the provider in the System UI. If set to `false`, the provider will be hidden.
+  This is working only on Android 10 (Api 29) and above, on lower versions it will always be shown.
+
+- `supportRecent` - Whether to add provider files to the `Recent` list.
+- `supportSearch` - Whether to include provider files in search in the System UI.
+- `maxRecentFiles` - Maximum number of recent files that will be shown in the `Recent` list.
+  Android max limit is 64, plugin default is 15.
+- `maxSearchResults` - Maximum number of search results that will be shown in the search list.
+  Plugin default is 10.
+
+🚩 **Supported flags for directories:**
+
+> [!TIP]
+> You can skip the `directories` section, if you plan to support all actions for directories.
+> Because by default all actions are set to `true`, even if you don't provide them in the section.
+
+- `create` - Whether the provider supports creation of new files & directories within it.
+- `delete` - Whether the provider supports deletion of files & directories.
+- `move` - Whether documents in the provider can be moved.
+- `rename` - Whether documents in the provider can be renamed.
+- `copy` - Whether documents in the provider can be copied.
+
+Section for directories in the `provider.json` file:
+
+```json
+{
+  "directories": {
+    "create": true,
+    "delete": true,
+    "move": true,
+    "rename": true,
+    "copy": true
+  }
+}
+``` 
+
+🏳️ **Supported flags for files:**
+
+> [!TIP]
+> You can skip the `files` section, if you plan to support all actions for directories.
+> Because by default all actions are set to `true`, even if you don't provide them in the section.
+
+- `delete` - Whether the provider supports deletion of files & directories.
+- `move` - Whether documents in the provider can be moved.
+- `rename` - Whether documents in the provider can be renamed.
+- `write` - Whether documents in the provider can be modified.
+- `copy` - Whether documents in the provider can be copied.
+- `thumbnail` - Indicates that documents can be represented as a thumbnails.
+    - The provider supports generating custom thumbnails for videos and PDFs.
+    - Thumbnails for images are generated by system.
+    - All thumbnails, generated by the provider, are cached in the `thumbs` directory under the `docManMedia` directory.
+    - You can clear the thumbnail cache using `DocMan.dir.clearCache()`.
+
+Section for files in the `provider.json` file:
+
+```json
+{
+  "files": {
+    "delete": true,
+    "move": true,
+    "rename": true,
+    "write": true,
+    "copy": true,
+    "thumbnail": true
+  }
+}
+```
+
+or short version, if all actions are supported:
+
+```json
+{
+  "files": {
+    "delete": false
+  }
+}
+```
+
+<a name="provider-json-example"></a>
+<details>
+
+<summary style="font-weight: bold">🗒️ Full Example of the `provider.json` (click for expand/collapse)</summary>
+
+```json
+{
+  "rootPath": "nested/provider_folder",
+  "providerName": "DocMan Example",
+  "providerSubtitle": "Documents & media files",
+  "mimeTypes": [
+    "image/*"
+  ],
+  "extensions": [
+    ".pdf",
+    "mp4"
+  ],
+  "showInSystemUI": true,
+  "supportRecent": true,
+  "supportSearch": true,
+  "maxRecentFiles": 20,
+  "maxSearchResults": 20,
+  "directories": {
+    "create": false,
+    "delete": true,
+    "move": true,
+    "rename": true,
+    "copy": true
+  },
+  "files": {
+    "delete": true,
+    "move": true,
+    "rename": true,
+    "write": true,
+    "copy": true,
+    "thumbnail": true
+  }
+}
+```
+
+</details>
+
+
+
+<a name="documents-provider-examples"></a>
+<hr />
+<details>
+<summary style="font-weight: bold">🖼️ DocumentsProvider examples (click for expand/collapse)</summary>
+
+|                             Side menu view in System File Manager                             |                                     Visibility in Recents                                     |
+|:---------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
+| <img src="https://github.com/user-attachments/assets/9d365397-3050-46b8-b0c9-a1f4a4956c82" /> | <img src="https://github.com/user-attachments/assets/5af73262-1991-424b-b6dc-45785c154a95" /> |
+
+|                               DocumentsProvider through Intent                                |                              DocumentsProvider via File Manager                               |
+|:---------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
+| <img src="https://github.com/user-attachments/assets/c4481d37-1e73-4e13-a3e2-5edfa8936f8a" /> | <img src="https://github.com/user-attachments/assets/4c66fa0c-15bc-4df0-b754-0831700e57e1" /> |
 
 </details>
 

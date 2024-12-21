@@ -1,7 +1,9 @@
 package devdf.plugins.docman.utils
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Point
 import android.net.Uri
 import android.util.Log
 import android.util.Size
@@ -15,13 +17,17 @@ import devdf.plugins.docman.extensions.getFileExtension
 import devdf.plugins.docman.extensions.isAppFile
 import devdf.plugins.docman.extensions.isImage
 import devdf.plugins.docman.extensions.isMediaMimeType
+import devdf.plugins.docman.extensions.isVideo
 import devdf.plugins.docman.extensions.isVisualMedia
 import devdf.plugins.docman.extensions.nameAsFileName
 import devdf.plugins.docman.extensions.toDocumentFile
+import io.flutter.util.PathUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
@@ -31,6 +37,35 @@ import java.nio.charset.Charset
 /** Helper class for file operations */
 class DocManFiles {
     companion object {
+
+        /** Convert JSON string to map
+         * Used for parse provider.json file
+         *
+         * @param json The JSON string to convert
+         * @return The converted map
+         */
+        fun jsonToMap(json: String): Map<String, Any?> {
+            val map = mutableMapOf<String, Any?>()
+            val jsonMap = JSONObject(json)
+            jsonMap.keys().forEach {
+                map[it] = jsonMap[it]
+                //1. Check for array and convert to list
+                if (jsonMap[it] is JSONArray) {
+                    val list = mutableListOf<Any?>()
+                    for (i in 0 until (jsonMap[it] as JSONArray).length()) {
+                        list.add((jsonMap[it] as JSONArray).get(i))
+                    }
+                    map[it] = list
+                }
+                //2. Check for nested JSON object and convert to map
+                if (jsonMap[it] is JSONObject) {
+                    map[it] = jsonToMap(jsonMap[it].toString())
+                }
+
+            }
+            return map
+        }
+
         /** Save [DocumentFile] to a cache file.
          *
          * @param doc The [DocumentFile] to save
@@ -192,9 +227,8 @@ class DocManFiles {
             context: Context
         ): String? = withContext(Dispatchers.IO) {
             //1. Prepare target file
-            val targetDirectory = cacheMediaDir(context)
             val targetFileName = "thumb_${doc.getBaseName(true)}.${format.extension}"
-            val targetFile = File(targetDirectory, targetFileName)
+            val targetFile = File(thumbnailsCacheDir(context), targetFileName)
             //2. Get thumbnail bitmap and compress it to the target file
             try {
                 DocManMedia.getThumbnailBitmap(doc, size, context)?.let { bitmap ->
@@ -209,6 +243,34 @@ class DocManFiles {
                 null
             }
         }
+
+        /** Get Thumbnail as file for [File] */
+        fun getThumbnailForFile(
+            file: File,
+            thumb: File,
+            size: Point,
+            context: Context
+        ) = runCatching {
+            val doc = DocumentFile.fromFile(file)
+            val thumbSize = Size(size.x, size.y)
+
+            when {
+                doc.isVideo(context) -> DocManMedia.videoThumbnail(doc, thumbSize, context)
+                doc.type == "application/pdf" -> DocManMedia.pdfThumbnail(
+                    doc,
+                    thumbSize,
+                    context
+                )
+
+                else -> null
+            }?.let {
+                //2. If bitmap is not null, save it to cache
+                thumb.outputStream().use { stream ->
+                    it.compress(Bitmap.CompressFormat.JPEG, 90, stream)
+                }
+            }
+
+        }.getOrNull()
 
         /** Generate a file name for temporary files */
         fun genFileName(): String = "docman_file_${System.currentTimeMillis() % 100000}"
@@ -228,6 +290,26 @@ class DocManFiles {
                         Log.e("DocManFiles", "Failed to delete directory: ${dir.path}", e)
                     }
                 }
+            }
+        }
+
+        /** Get provider directory.
+         * If external files directory is not available, internal data directory is used.
+         *
+         * @param rootPath The relative path of the root provider directory
+         * @param context The context of the application
+         * @return The provider directory
+         */
+        fun providerDir(rootPath: String, context: Context): File {
+            val dir = context.getExternalFilesDir(null) ?: File(PathUtils.getDataDirectory(context))
+            return dir.resolve(rootPath).apply { if (!exists()) mkdir() }
+        }
+
+        /** Get plugin cache directory for thumbnails */
+        fun thumbnailsCacheDir(context: Context): File {
+            return cacheMediaDir(context).resolve("thumbs").apply {
+                if (!exists()) mkdir()
+                deleteOnExit()
             }
         }
 
