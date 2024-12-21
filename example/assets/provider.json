@@ -1,0 +1,32 @@
+{
+  "rootPath": "nested/provider_folder",
+  "providerName": "DocMan Example",
+  "providerSubtitle": "Documents & media files",
+  "mimeTypes": [
+    "image/*"
+  ],
+  "extensions": [
+    ".pdf",
+    "mp4"
+  ],
+  "showInSystemUI": true,
+  "supportRecent": true,
+  "supportSearch": true,
+  "maxRecentFiles": 20,
+  "maxSearchResults": 20,
+  "directories": {
+    "create": false,
+    "delete": true,
+    "move": true,
+    "rename": true,
+    "copy": true
+  },
+  "files": {
+    "delete": true,
+    "move": true,
+    "rename": true,
+    "write": true,
+    "copy": true,
+    "thumbnail": true
+  }
+}

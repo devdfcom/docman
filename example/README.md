@@ -37,3 +37,13 @@ Demonstrates how to use the docman plugin.
 |                                   Picked Directory actions                                    |                                    Local Directory actions                                    |
 |:---------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
 | <img src="https://github.com/user-attachments/assets/f9e851c0-5e49-4a05-a122-909c188e530b" /> | <img src="https://github.com/user-attachments/assets/4c5158f3-b694-4ec0-8fb0-72a58bd61986" /> |
+
+## 🗂️ DocumentsProvider
+
+|                             Side menu view in System File Manager                             |                                     Visibility in Recents                                     |
+|:---------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
+| <img src="https://github.com/user-attachments/assets/9d365397-3050-46b8-b0c9-a1f4a4956c82" /> | <img src="https://github.com/user-attachments/assets/5af73262-1991-424b-b6dc-45785c154a95" /> |
+
+|                               DocumentsProvider through Intent                                |                              DocumentsProvider via File Manager                               |
+|:---------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
+| <img src="https://github.com/user-attachments/assets/c4481d37-1e73-4e13-a3e2-5edfa8936f8a" /> | <img src="https://github.com/user-attachments/assets/4c66fa0c-15bc-4df0-b754-0831700e57e1" /> |

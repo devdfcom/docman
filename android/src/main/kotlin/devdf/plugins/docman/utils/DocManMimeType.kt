@@ -8,7 +8,13 @@ import android.webkit.MimeTypeMap
 
 class DocManMimeType {
     companion object {
-        fun combine(mimeTypes: List<String>?, extensions: List<String>?): List<String> {
+        /** Combine mimeTypes and extensions into a single list */
+        fun combine(
+            mimeTypes: List<String>?,
+            extensions: List<String>?,
+            //Allow all mimeTypes to be added, even if they are not recognized by the system
+            allowAll: Boolean = false
+        ): List<String> {
             val mimeTypesSet = mutableSetOf<String>()
             //1. Filter current mimeTypes & add to the set
             mimeTypes?.forEach {
@@ -16,16 +22,19 @@ class DocManMimeType {
                 if (it.endsWith("/*")) mimeTypesSet.add(it)
                 //1.2 Check if prefix mime is already in set with asterisks
                 if (!mimeTypesSet.contains("${it.split("/")[0]}/*")) {
-                    if (MimeTypeMap.getSingleton().hasMimeType(it) || it == "directory") {
+                    if (MimeTypeMap.getSingleton()
+                            .hasMimeType(it) || it == "directory" || allowAll
+                    ) {
                         mimeTypesSet.add(it)
                     }
                 }
             }
             //2. Filter extensions and add to the set
             extensions?.forEach {
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension(it)?.let { mimeType ->
-                    mimeTypesSet.add(mimeType)
-                }
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension(it.substringAfterLast("."))
+                    ?.let { mimeType ->
+                        mimeTypesSet.add(mimeType)
+                    }
             }
 
             return mimeTypesSet.toList()
