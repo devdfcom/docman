@@ -50,7 +50,10 @@ class AppDir {
     filesExt = await DocMan.dir.filesExt();
     // Initialize the provider directory for future use in the app
     // By this path, you can add files & dirs to the `Documents Provider`
-    provider = Directory([(filesExt?.path ?? files.path), 'nested/provider_folder'].join(Platform.pathSeparator));
+    provider = Directory([
+      (filesExt?.path ?? files.path),
+      'nested/provider_folder'
+    ].join(Platform.pathSeparator));
 
     //If its nested path create it
     await provider.create(recursive: true);

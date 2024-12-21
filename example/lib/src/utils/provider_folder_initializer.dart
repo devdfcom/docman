@@ -19,16 +19,20 @@ class ProviderFolderInitializer {
   final String _providerMediaFolder = 'media';
   final String _providerDocFolder = 'documents';
 
-  String get _mediaFolderPath => [AppDir.provider.path, _providerMediaFolder].join(Platform.pathSeparator);
+  String get _mediaFolderPath =>
+      [AppDir.provider.path, _providerMediaFolder].join(Platform.pathSeparator);
 
-  String get _documentsFolderPath => [AppDir.provider.path, _providerDocFolder].join(Platform.pathSeparator);
+  String get _documentsFolderPath =>
+      [AppDir.provider.path, _providerDocFolder].join(Platform.pathSeparator);
 
   Future<void> init() async {
     //1. Create the folder if not exists
     //2. If the folder exists, return
     await AppDir.provider.create();
     //3. Copy the files from the assets folder to the folder
-    if (AppDir.provider.listSync().isEmpty) await _initSubFolders();
+    if (AppDir.provider.listSync().isEmpty) {
+      await _initSubFolders();
+    }
   }
 
   Future<void> _initSubFolders() async {
@@ -40,12 +44,17 @@ class ProviderFolderInitializer {
 
   Future<void> _initSubFolder(String folderPath, List<String> assets) async {
     //1. Create the folder if not exists
-    if (!await Directory(folderPath).exists()) await Directory(folderPath).create();
+    if (!await Directory(folderPath).exists()) {
+      await Directory(folderPath).create();
+    }
+
     //2. Copy the media files
     for (final asset in assets) {
       final extension = asset.split('.').last;
-      final randomName = String.fromCharCodes(List.generate(10, (index) => Random().nextInt(26) + 97));
-      await _getFilePath(asset, [folderPath, '$randomName.$extension'].join(Platform.pathSeparator));
+      final randomName = String.fromCharCodes(
+          List.generate(10, (index) => Random().nextInt(26) + 97));
+      await _getFilePath(asset,
+          [folderPath, '$randomName.$extension'].join(Platform.pathSeparator));
     }
   }
 
