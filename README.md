@@ -1058,7 +1058,7 @@ Please see [CHANGELOG.md](./CHANGELOG.md) for more information on what has chang
 
 ## ⁉️ Help & Questions
 
-Start a new discussion in the [Discussions Tab](https://github.com/stevenfoncken/multitool-for-spotify-php/discussions).
+Start a new discussion in the [Discussions Tab](https://github.com/devdfcom/docman/discussions).
 
 ## 🌱 Contributing
 
