@@ -723,13 +723,15 @@ and can be performed in the background (with isolates or WorkManager).
     ```dart
     Future<DocumentThumbnail?> thumbnail(DocumentFile file) => file.thumbnail(width: 256, height: 256, quality: 70);
     ```
-  > [!NOTE]
-  > ⚠️ Sometimes due to different document providers, thumbnail can have bigger dimensions, than requested.
-  Some document providers may not support thumbnail generation.
+    
+> [!NOTE]
+> ⚠️ Sometimes due to different document providers, thumbnail can have bigger dimensions, than requested.
+> Some document providers may not support thumbnail generation.
 
-  > [!TIP]
-  > ⚠️ If file is local image, only `jpg`, `png`, `webp`, `gif`
-  types are currently supported for thumbnail generation, in all other cases support depends on the document provider.
+> [!TIP]  
+> ⚠️ If file is local image, only `jpg`, `png`, `webp`, `gif`
+> types are currently supported for thumbnail generation, in all other cases support depends on the document provider.
+  
 
 - `thumbnailFile` `📄` Get the thumbnail of the file as a `File`.
 
