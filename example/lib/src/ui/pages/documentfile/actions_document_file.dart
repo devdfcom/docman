@@ -120,7 +120,10 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
             ? exception.title
             : 'Permissions for: ${_document?.name}',
         subTitle: exception?.subTitle,
-        result: exception?.result ?? perms.toString(),
+        result: exception?.result ??
+            (perms == null
+                ? 'DocumentFile has no persisted permissions'
+                : perms.toString()),
         isResultOk: exception == null && perms != null,
       ),
     ]);
@@ -431,24 +434,44 @@ class _ActionsDocumentFileState extends State<ActionsDocumentFile> {
         )
       ]);
     } else {
+      //2.1. Set thumbnail method
+      //There are currently 2 ways to get thumbnail
+      // First to get thumbnail via `document.thumbnail()` method or by instantiating `DocumentThumbnail` class
+      // Both methods are same, depending on what you prefer
+      // Here commented out example of `document.thumbnail()` method, old one, just to show the difference
+
+      /// final thumbnailMethod = _document!.thumbnail(
+      ///   width: _thumbWidth,
+      ///   height: _thumbHeight,
+      ///   quality: _thumbQuality,
+      ///   png: png,
+      ///   webp: webp,
+      /// );
+
+      //2.2. Get thumbnail via `DocumentThumbnail.fromUri()` method
+      final thumbnailMethod = DocumentThumbnail.fromUri(
+        _document!.uri,
+        width: _thumbWidth,
+        height: _thumbHeight,
+        quality: _thumbQuality,
+        png: png,
+        webp: webp,
+      );
+
       //3. Set thumbnail widget to result
       widget.onResultWidgets([
         MethodApiWidget(
           MethodApiEntry(
+              //name: 'DocumentFile.thumbnail(width: $_thumbWidth, height: $_thumbHeight, quality: $_thumbQuality, png: $png, webp: $webp)',
               name:
-                  'DocumentFile.thumbnail(width: $_thumbWidth, height: $_thumbHeight, quality: $_thumbQuality, png: $png, webp: $webp)',
+                  'DocumentThumbnail.fromUri(${_document!.uri}, width: $_thumbWidth, height: $_thumbHeight, quality: $_thumbQuality, png: $png, webp: $webp)',
               subTitle: 'Future intentionally delayed for 2 seconds'),
           endDivider: false,
         ),
         ThumbResultWidget(
           maxWidth: _thumbWidth,
           maxHeight: _thumbHeight,
-          getThumb: _document!.thumbnail(
-              width: _thumbWidth,
-              height: _thumbHeight,
-              quality: _thumbQuality,
-              png: png,
-              webp: webp),
+          getThumb: thumbnailMethod,
         )
       ]);
     }

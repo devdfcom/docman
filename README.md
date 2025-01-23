@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/github/license/devdfcom/docman?style=flat&color=mediumseagreen)](https://opensource.org/licenses/MIT)
 [![Request a feature](https://img.shields.io/badge/Request-Feature-teal?style=flat)](https://github.com/devdfcom/docman/discussions/new?category=ideas)
 [![Ask a question](https://img.shields.io/badge/Ask-Question-royalblue?style=flat)](https://github.com/devdfcom/docman/discussions/new/choose)
-[![Report a bug](https://img.shields.io/badge/Report-Bug-indianred?style=flat)](https://github.com/devdfcom/docman/issues/new?labels=bug&projects=&template=bug_report.yml&title=%3Ctitle%3E)
+[![Report a bug](https://img.shields.io/badge/Report-Bug-indianred?style=flat)](https://github.com/devdfcom/docman/issues/new?labels=bug&projects=&template=bug_report.yml)
 
 A Flutter plugin that simplifies file & directory operations on Android devices.
 Leveraging the Storage Access Framework (SAF) API,
@@ -277,7 +277,7 @@ Only `cacheExt` & `filesExt` can be empty strings if external storage is not ava
 ///Get all directories at once via helper method
 Future<void> getAllDirs() async {
   final Map<String, String> dirs = await DocMan.dir.all();
-  
+
   print(dirs);
 }
 
@@ -504,6 +504,9 @@ There are two ways to instantiate a `DocumentFile`:
   ```dart
   Future<DocumentFile?> backupDir() =>
       DocumentFile(uri: 'content://com.android.externalstorage.documents/tree/primary%3ADocMan').get();
+  ///Or you can use static method fromUri
+  Future<DocumentFile?> backupDir() =>
+      DocumentFile.fromUri('content://com.android.externalstorage.documents/tree/primary%3ADocMan');
   ```
 
 > [!CAUTION]
@@ -516,9 +519,13 @@ There are two ways to instantiate a `DocumentFile`:
 
   ```dart
   Future<DocumentFile?> file() => DocumentFile(uri: 'path/to/file.jpg').get();
+  ///Or you can use static method fromUri
+  Future<DocumentFile?> file() => DocumentFile.fromUri('path/to/file.jpg');
   
   /// If directory doesn't exist, it will create all directories in the path.
   Future<DocumentFile?> dir() => DocumentFile(uri: 'path/to/some/directory/notCreatedYet').get();
+  ///Or you can use static method fromUri
+  Future<DocumentFile?> dir() => DocumentFile.fromUri('path/to/some/directory/notCreatedYet');
   ```
 
 #### **DocumentFile Activity methods**
@@ -532,15 +539,19 @@ Like `open`, `share`, `saveTo` methods. All methods are called through Activity 
   the system will show a dialog to choose the app to open with.
   Action can be performed only on file & file must exist.
 
-    ```dart
-    Future<bool> openFile(DocumentFile file) => file.open('Open with:');
-    ```
+    * `title` parameter is optional, and not working on all devices, depends on the system.
+
+      ```dart
+      Future<bool> openFile(DocumentFile file) => file.open(title: 'Open with:'); //or file.open();
+      ```
 
 - `share` `📄` Share the file with other apps.
 
-    ```dart
-    Future<bool> shareFile(DocumentFile file) => file.share('Share with:');
-    ```
+    * `title` parameter is optional, and not working on all devices, depends on the system.
+
+      ```dart
+      Future<bool> shareFile(DocumentFile file) => file.share(title: 'Share with:'); //or file.share();
+      ```
 
 - `saveTo` `📄` Save the file to the selected directory.
 
@@ -736,6 +747,8 @@ and can be performed in the background (with isolates or WorkManager).
       file.moveTo('/data/user/0/devdf.plugins.docman_example/cache/TempDir', name: 'moved_file.txt');
     ```
 
+<a name="documentfile-action-thumbnail"></a>
+
 - `thumbnail` `📄` Get the thumbnail of the file.
 
   Can be used only on file & file must exist & has flag `canThumbnail` set to `true`.
@@ -768,8 +781,23 @@ and can be performed in the background (with isolates or WorkManager).
 
 #### 🧩 **DocumentThumbnail class**
 
-`DocumentThumbnail` is a data class that holds information about the thumbnail image.
+`DocumentThumbnail` is a class that holds information about the thumbnail image.
 It stores the `width`, `height` of the image, and the `bytes` (Uint8List) of the image.
+
+`📄` You can instantiate the `DocumentThumbnail` via static method `fromUri()` or from `DocumentFile` instance via
+[`DocumentFile.thumbnail()`](#documentfile-action-thumbnail) method.
+
+You must specify the width & height of the thumbnail. Optionally you can specify the quality of the image
+and set `png` or `webp` to `true` to get the compressed image in that format, otherwise it will be `jpeg`.
+Returns [DocumentThumbnail](#-documentthumbnail-class) instance of the thumbnail image or `null` if the thumbnail is
+not available. Commonly used for images, videos, pdfs.
+
+```dart
+/// It can be instantiated from `Content Uri` or `File.path` via static method.
+Future<DocumentThumbnail?> getThumbnail(String contentUriOrFilePath) async {
+  return await DocumentThumbnail.fromUri(contentUriOrFilePath, width: 192, height: 192, png: true, quality: 100);
+}
+```
 
 #### **Unsupported methods**
 

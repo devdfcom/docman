@@ -12,10 +12,12 @@ extension DocumentFileActionsExt on DocumentFile {
   ///
   /// `DocumentFile` [uri] must not be empty, before calling this method.
   ///
-  /// [uri] - can be `Uri` saved from previous request with persisted permission,
+  /// [uri] - can be `Content Uri` saved from previous request with persisted permission,
   /// or it can be app local `File.path` or `Directory.path`.
   ///
   /// **Note:** `Uri` without persisted permissions will not work, or uris like `content://media/external/file/106`.
+  ///
+  /// **Note**: Or you can use static method `DocumentFile.fromUri(uri)` to get the `DocumentFile` instance.
   ///
   /// Returns [DocumentFile] for the [uri], or null if uri is not valid.
   Future<DocumentFile?> get() => DocumentFileMethods(this).get();
@@ -235,20 +237,22 @@ extension DocumentFileActivityExt on DocumentFile {
   /// [DocumentFile] must exist & must be a file, before calling this method.
   ///
   /// - [title] Title of the dialog to show when opening the document.
-  /// Title is used on Intent chooser dialog on Android, depends on os version & device.
+  /// Title is used on Intent chooser dialog on Android, depends on os version & device,
+  /// so it may not be shown on all devices.
   ///
   /// Returns `true` if the document is opened successfully, otherwise `false`.
-  Future<bool> open(String? title) => DocumentFileMethods(this).open(title);
+  Future<bool> open({String? title}) => DocumentFileMethods(this).open(title);
 
   /// Share the document with other apps.
   ///
   /// [DocumentFile] must exist & must be a file, before calling this method.
   ///
   /// - [title] Title of the dialog to show when sharing the document.
-  /// Title is used on Intent chooser dialog on Android, depends on os version & device.
+  /// Title is used on Intent chooser dialog on Android, depends on os version & device,
+  /// so it may not be shown on all devices.
   ///
   /// Returns `true` if the document is shared successfully, otherwise `false`.
-  Future<bool> share(String? title) => DocumentFileMethods(this).share(title);
+  Future<bool> share({String? title}) => DocumentFileMethods(this).share(title);
 
   /// Save the document to the selected location.
   ///
