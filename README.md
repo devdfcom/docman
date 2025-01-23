@@ -83,6 +83,7 @@ All public classes and methods are well-documented.
     - [Pick visualMedia](#pick-visualmedia)
 3. 📂 [**App Directories**](#-app-directories) (🖼️ [*see examples*](#app-directories-examples))
     - [Supported app directories](#supported-app-directories)
+    - [Get all directories at once](#get-all-directories-at-once)
     - ♻️ [Plugin Cache cleaner](#plugin-cache-cleaner)
 4. 🛡️ [**Persisted permissions**](#persisted-permissions) (🖼️ [*see examples*](#persisted-permissions-examples))
     - [PersistedPermission data class](#persistedpermission-class)
@@ -114,7 +115,7 @@ Add the following dependency to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  docman: ^1.0.0
+  docman: ^1.2.0
 ```
 
 Then run ➡️ `flutter pub get`.
@@ -264,6 +265,30 @@ Future<Directory?> externalCache() => DocMan.dir.externalCache();
 /// Get Application External Files Directory.
 /// Path Example: `/storage/emulated/0/Android/data/devdf.plugins.docman_example/files`
 Future<Directory?> filesExt() => DocMan.dir.filesExt();
+```
+
+#### **Get all directories at once:**
+
+It is possible to get all directories at once.
+The method returns a map with the **directory name** as the `key` and **directory path** as `value`.
+Only `cacheExt` & `filesExt` can be empty strings if external storage is not available.
+
+```dart
+///Get all directories at once via helper method
+Future<void> getAllDirs() async {
+  final Map<String, String> dirs = await DocMan.dir.all();
+  
+  print(dirs);
+}
+
+/// Result Example:
+final dirs = {
+  "cache": "/data/user/0/devdf.plugins.docman_example/cache",
+  "files": "/data/user/0/devdf.plugins.docman_example/files",
+  "data": "/data/user/0/devdf.plugins.docman_example/app_flutter",
+  "cacheExt": "/storage/emulated/0/Android/data/devdf.plugins.docman_example/cache",
+  "filesExt": "/storage/emulated/0/Android/data/devdf.plugins.docman_example/files"
+};
 ```
 
 <a name="plugin-cache-cleaner"></a>
@@ -723,7 +748,7 @@ and can be performed in the background (with isolates or WorkManager).
     ```dart
     Future<DocumentThumbnail?> thumbnail(DocumentFile file) => file.thumbnail(width: 256, height: 256, quality: 70);
     ```
-    
+
 > [!NOTE]
 > ⚠️ Sometimes due to different document providers, thumbnail can have bigger dimensions, than requested.
 > Some document providers may not support thumbnail generation.
@@ -731,7 +756,6 @@ and can be performed in the background (with isolates or WorkManager).
 > [!TIP]  
 > ⚠️ If file is local image, only `jpg`, `png`, `webp`, `gif`
 > types are currently supported for thumbnail generation, in all other cases support depends on the document provider.
-  
 
 - `thumbnailFile` `📄` Get the thumbnail of the file as a `File`.
 

@@ -42,6 +42,7 @@ class AppDirsAction(
         when (action) {
             "path" -> getPath()
             "clear" -> clear()
+            "all" -> getAll()
             else -> notImplementedAction(action)
         }
     }
@@ -64,6 +65,18 @@ class AppDirsAction(
         // Clear the cache directory, currently only cache directory is supported
         if (dir == AppDirType.Cache) DocManFiles.clearCacheDirectories(plugin.context)
         success(true)
+    }
+
+    private fun getAll() {
+        val dirs = mutableMapOf<String, String>(
+            "cache" to plugin.context.cacheDir.path,
+            "files" to plugin.context.filesDir.path,
+            "data" to PathUtils.getDataDirectory(plugin.context),
+            "cacheExt" to (plugin.context.externalCacheDir?.path ?: ""),
+            "filesExt" to (plugin.context.getExternalFilesDir(null)?.path ?: "")
+        )
+
+        success(dirs)
     }
 
     private fun dirPathError() {

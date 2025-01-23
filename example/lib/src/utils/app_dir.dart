@@ -43,11 +43,20 @@ class AppDir {
   ///
   /// Returns a Future that completes with the [AppDir] instance.
   Future<AppDir> init() async {
-    cache = (await DocMan.dir.cache())!;
-    files = (await DocMan.dir.files())!;
-    data = (await DocMan.dir.data())!;
-    cacheExt = await DocMan.dir.cacheExt();
-    filesExt = await DocMan.dir.filesExt();
+    //1. You can get each directory separately, like this:
+    // cache = (await DocMan.dir.cache())!;
+    // files = (await DocMan.dir.files())!;
+    // data = (await DocMan.dir.data())!;
+    // cacheExt = await DocMan.dir.cacheExt();
+    // filesExt = await DocMan.dir.filesExt();
+
+    //2. Or you can get all directories at once, like this:
+    final dirs = await DocMan.dir.all();
+    //2.1. Set the directories from the map
+    for (var entry in dirs!.entries) {
+      _setDirectoryFromEntry(entry);
+    }
+
     // Initialize the provider directory for future use in the app
     // By this path, you can add files & dirs to the `Documents Provider`
     provider = Directory([
@@ -60,6 +69,18 @@ class AppDir {
 
     return _instance;
   }
+
+  void _setDirectoryFromEntry(MapEntry<String, String> entry) =>
+      switch (entry.key) {
+        'cache' => cache = Directory(entry.value),
+        'files' => files = Directory(entry.value),
+        'data' => data = Directory(entry.value),
+        'cacheExt' => cacheExt =
+            entry.value.isEmpty ? null : Directory(entry.value),
+        'filesExt' => filesExt =
+            entry.value.isEmpty ? null : Directory(entry.value),
+        _ => throw AppDirPathException('Invalid directory entry: ${entry.key}'),
+      };
 
   /// Returns a string representation of the [AppDir] instance.
   ///
