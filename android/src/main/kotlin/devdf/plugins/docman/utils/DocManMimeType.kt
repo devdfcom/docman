@@ -77,7 +77,7 @@ class DocManMimeType {
                         cursor.getString(cursor.getColumnIndexOrThrow(column))
                     } else null
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 null
             }
         }
@@ -87,7 +87,7 @@ class DocManMimeType {
             return try {
                 retriever.setDataSource(context, uri)
                 retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 null
             } finally {
                 retriever.release()

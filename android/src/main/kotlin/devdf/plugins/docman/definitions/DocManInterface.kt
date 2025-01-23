@@ -128,8 +128,8 @@ interface MethodMeta {
         get() = meta.errorCode
     val method: String
         get() = meta.methodName
-    val requestCode: Int
-        get() = meta.requestCode
+    val requestCode: String
+        get() = meta.requestCode.toString()
 }
 
 

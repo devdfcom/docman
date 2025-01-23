@@ -17,6 +17,7 @@ import devdf.plugins.docman.extensions.getFileExtension
 import devdf.plugins.docman.extensions.isAppFile
 import devdf.plugins.docman.extensions.isImage
 import devdf.plugins.docman.extensions.isMediaMimeType
+import devdf.plugins.docman.extensions.isPDF
 import devdf.plugins.docman.extensions.isVideo
 import devdf.plugins.docman.extensions.isVisualMedia
 import devdf.plugins.docman.extensions.nameAsFileName
@@ -179,7 +180,7 @@ class DocManFiles {
         /** Read the content of the [DocumentFile] as a byte array */
         fun readDocumentFile(doc: DocumentFile, context: Context): ByteArray? = try {
             context.contentResolver.openInputStream(doc.uri)?.use { it.readBytes() }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
 
@@ -239,7 +240,7 @@ class DocManFiles {
                     }
                     targetFile.path
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 null
             }
         }
@@ -256,7 +257,7 @@ class DocManFiles {
 
             when {
                 doc.isVideo(context) -> DocManMedia.videoThumbnail(doc, thumbSize, context)
-                doc.type == "application/pdf" -> DocManMedia.pdfThumbnail(
+                doc.isPDF() -> DocManMedia.pdfThumbnail(
                     doc,
                     thumbSize,
                     context

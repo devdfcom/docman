@@ -40,6 +40,8 @@ class DocumentFileAction(
 
     override val meta: DocManMethod = DocManMethod.DocumentFileAction
 
+    /// Override the requestCode, to allow multiple actions on different documents
+    override val requestCode: String = call.argument<String>("uri") ?: meta.requestCode.toString()
     private lateinit var doc: DocumentFile
 
     override fun oMethodCall() {

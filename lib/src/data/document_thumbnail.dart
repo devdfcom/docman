@@ -30,6 +30,8 @@ class DocumentThumbnail {
         height: map['height'] as int,
       );
 
+  //TODO get thumbnail directly from filePath or Uri
+
   /// Converts the instance to a map.
   Map<String, dynamic> toMap() => <String, dynamic>{
         'bytes': bytes,
@@ -39,7 +41,7 @@ class DocumentThumbnail {
 
   @override
   String toString() =>
-      'DocumentThumbnail(bytes: $bytes, width: $width, height: $height)';
+      'DocumentThumbnail(bytes: ${bytes.length}, width: $width, height: $height)';
 
   @override
   bool operator ==(Object other) {

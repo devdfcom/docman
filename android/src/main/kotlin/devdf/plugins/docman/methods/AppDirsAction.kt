@@ -59,6 +59,7 @@ class AppDirsAction(
         dirPath?.let { success(it) } ?: dirPathError()
     }
 
+
     private fun clear() {
         // Clear the cache directory, currently only cache directory is supported
         if (dir == AppDirType.Cache) DocManFiles.clearCacheDirectories(plugin.context)
