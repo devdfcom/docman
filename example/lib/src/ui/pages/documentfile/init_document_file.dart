@@ -172,7 +172,12 @@ class _InitDocumentFileState extends State<InitDocumentFile> {
     final filePath = await _getFilePath();
     //2. Create DocumentFile from file path
     try {
-      doc = await DocumentFile(uri: filePath).get();
+      //2.1 In DocMan v1.2.0 was added static method `fromUri` for `DocumentFile`
+      //So from now on it's possible to instantiate DocumentFile via `DocumentFile.fromUri(uri)`
+      doc = await DocumentFile.fromUri(filePath);
+
+      ///Before v1.2.0 it was possible to instantiate DocumentFile only via `DocumentFile(uri: uri).get()`
+      ///doc = await DocumentFile(uri: filePath).get();
     } catch (e) {
       exception = _exceptionEntry(e);
     }
@@ -183,7 +188,8 @@ class _InitDocumentFileState extends State<InitDocumentFile> {
       //4. Update the result
       widget.onResult([
         MethodApiEntry(
-          name: 'DocumentFile(uri: $filePath).get()',
+          //name: DocumentFile(uri: $filePath).get()
+          name: 'DocumentFile.fromUri($filePath)',
           title: exception != null
               ? exception.title
               : 'DocumentFile: ${doc?.name}',

@@ -1,3 +1,4 @@
+import 'package:docman/docman.dart';
 import 'package:flutter/material.dart';
 
 /// A class representing a `DocumentFile` on dart side.
@@ -92,6 +93,16 @@ class DocumentFile {
         canCreate: map['canCreate'] as bool,
         canThumbnail: map['canThumbnail'] as bool,
       );
+
+  /// Instantiates a [DocumentFile] from a Content URI or a File path.
+  ///
+  /// Same as `DocumentFile(uri: uri).get()`, just syntactic sugar.
+  ///
+  /// **Note**: Or you can use old method `DocumentFile(uri: uri).get()` to get the `DocumentFile` instance.
+  ///
+  /// Returns a [DocumentFile] instance or `null` if the document is not available.
+  static Future<DocumentFile?> fromUri(String uri) =>
+      DocumentFile(uri: uri).get();
 
   /// Checks if the document is a directory.
   bool get isDirectory => type == 'directory';

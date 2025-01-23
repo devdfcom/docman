@@ -46,7 +46,7 @@ class _ActivityDocumentFileState extends State<ActivityDocumentFile> {
     MethodApiEntry? exception;
 
     try {
-      isOpened = await widget.document!.open('Open Document with');
+      isOpened = await widget.document!.open(title: 'Open Document with');
     } catch (e) {
       exception = _exceptionEntry(e);
     }
@@ -71,7 +71,7 @@ class _ActivityDocumentFileState extends State<ActivityDocumentFile> {
     MethodApiEntry? exception;
 
     try {
-      isShared = await widget.document!.share('Share Document with');
+      isShared = await widget.document!.share(title: 'Share Document with');
     } catch (e) {
       exception = _exceptionEntry(e);
     }
