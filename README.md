@@ -57,8 +57,7 @@ Future<List<Permission>> getPermissions() async => await DocMan.perms.list(files
 ///DocumentFile used for file & directory operations
 Future<void> dirOperationsExample() async {
   //Instantiate a DocumentFile from saved URI
-  final dir = await DocumentFile(uri: 'content://com.android.externalstorage.documents/document/primary%3ADocMan')
-      .get();
+  final dir = await DocumentFile.fromUri('content://com.android.externalstorage.documents/document/primary%3ADocMan');
   //List directory files with mimeTypes filter
   final List<DocumentFile> documents = await dir.listDocuments(mimeTypes: ['application/pdf']);
 }
