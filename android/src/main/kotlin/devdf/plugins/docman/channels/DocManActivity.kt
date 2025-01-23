@@ -42,8 +42,8 @@ internal class DocManActivity(private val plugin: DocManPlugin) : EngineBase,
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-        return plugin.queue.methodCast<ActivityMethodBase>(requestCode)
-            ?.onActivityResult(resultCode, data) ?: false
+        return plugin.queue.methodCast<ActivityMethodBase>(requestCode.toString())
+            ?.onActivityResult(resultCode, data) == true
     }
 
     override fun onAttach() {

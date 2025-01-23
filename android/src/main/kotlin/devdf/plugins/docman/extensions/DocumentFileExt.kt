@@ -156,7 +156,7 @@ fun DocumentFile.canCreate(context: Context): Boolean =
  */
 //TODO: add additional thumbnail types like docx, xls, maybe others
 fun DocumentFile.canThumbnailAlternate(context: Context): Boolean =
-    canRead() && (type == "application/pdf" || isVideo(context) || isImage(context))
+    canRead() && (isPDF() || isVideo(context) || isImage(context))
 
 /** Get the persisted URI of the [DocumentFile]
  *
@@ -319,6 +319,9 @@ fun DocumentFile.isVideo(context: Context): Boolean =
  */
 fun DocumentFile.isVisualMedia(context: Context): Boolean =
     isImage(context) || isVideo(context)
+
+/** Check if the [DocumentFile] is a PDF file */
+fun DocumentFile.isPDF(): Boolean = type == "application/pdf"
 
 /** Copy the [DocumentFile] to the cache directory.
  *

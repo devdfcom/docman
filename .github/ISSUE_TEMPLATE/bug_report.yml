@@ -20,6 +20,7 @@ body:
           - **Flutter**: 2.5.2
           - **Dart**: 2.14.3
           - **DocMan version**: 1.0.2
+        
         Android information (optional): 
           - **OS**: Android 11
           - **Device**: Pixel 5

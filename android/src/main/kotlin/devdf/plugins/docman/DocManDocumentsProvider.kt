@@ -265,7 +265,7 @@ class DocManDocumentsProvider : DocumentsProvider() {
             )
             removeDocument(sourceDocumentId, sourceParentDocumentId)
             return newDocumentId
-        } catch (e: FileNotFoundException) {
+        } catch (_: FileNotFoundException) {
             throw FileNotFoundException("Couldn't move document '$sourceDocumentId'")
         }
     }

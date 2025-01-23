@@ -53,8 +53,8 @@ class DocumentFileActivity(
         }
 
         try {
-            plugin.binding?.activity?.startActivityForResult(intent, requestCode)
-        } catch (e: Exception) {
+            plugin.binding?.activity?.startActivityForResult(intent, requestCode.toInt())
+        } catch (_: Exception) {
             plugin.queue.finishWithError(requestCode, "no_activity", action, null)
         }
     }
@@ -79,7 +79,7 @@ class DocumentFileActivity(
     }
 
     private fun actionCreateDocumentIntent(): Intent {
-        val localOnly = call.argument<Boolean>("localOnly") ?: false
+        val localOnly = call.argument<Boolean>("localOnly") == true
         val initDir = call.argument<String>("initDir")
         return Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
@@ -104,7 +104,7 @@ class DocumentFileActivity(
     }
 
     private fun processSaveTo(data: Intent?) {
-        val deleteSource = call.argument<Boolean>("deleteSource") ?: false
+        val deleteSource = call.argument<Boolean>("deleteSource") == true
         if (data != null && data.data != null) {
             CoroutineScope(Dispatchers.IO).launch {
                 val newDoc = doc.saveToUri(data.data!!, deleteSource, plugin.context)

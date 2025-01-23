@@ -18,8 +18,8 @@ class PermissionsEvents(
 
     override val meta: DocManMethod = DocManMethod.PermissionsEvent
 
-    private val dirs = call.argument<Boolean>("dirs") ?: true
-    private val files = call.argument<Boolean>("files") ?: true
+    private val dirs = call.argument<Boolean>("dirs") != false
+    private val files = call.argument<Boolean>("files") != false
 
     override suspend fun onListen() {
         when (val action = call.argument<String>("action")) {

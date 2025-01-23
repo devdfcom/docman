@@ -16,6 +16,7 @@ import android.util.Size
 import androidx.documentfile.provider.DocumentFile
 import devdf.plugins.docman.extensions.canThumbnailAlternate
 import devdf.plugins.docman.extensions.isImage
+import devdf.plugins.docman.extensions.isPDF
 import devdf.plugins.docman.extensions.isVideo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -73,13 +74,17 @@ class DocManMedia {
             size: Size,
             context: Context,
         ): Bitmap? = runCatching {
-            //1. Check if we can get thumbnail from the document fastest way
-            DocumentsContract.getDocumentThumbnail(
-                context.contentResolver,
-                doc.uri,
-                Point(size.width, size.height),
-                null
-            )
+            //1. If document is local file just skip this section
+            //1.1. Check if we can get thumbnail from the document fastest way
+            if (doc.uri.scheme != "file") {
+                DocumentsContract.getDocumentThumbnail(
+                    context.contentResolver,
+                    doc.uri,
+                    Point(size.width, size.height),
+                    null
+                )
+            } else null
+
         }.getOrNull() ?: runCatching {
             //2. If not, try to load thumbnail from content resolver if allowed
             if (DocManBuild.loadThumbnail()) {
@@ -90,7 +95,7 @@ class DocManMedia {
             when {
                 doc.isImage(context) -> imageThumbnail(doc, size, context)
                 doc.isVideo(context) -> videoThumbnail(doc, size, context)
-                doc.type == "application/pdf" -> pdfThumbnail(doc, size, context)
+                doc.isPDF() -> pdfThumbnail(doc, size, context)
                 else -> null
             }
         } else null

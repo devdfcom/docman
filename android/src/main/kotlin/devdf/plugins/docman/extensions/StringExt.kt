@@ -13,7 +13,7 @@ fun String.toUri(): Uri {
     return if (parsedScheme.isNullOrEmpty() || ("${this[0]}" == "/")) {
         try {
             Uri.fromFile(File(this))
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             parsed
         }
     } else parsed

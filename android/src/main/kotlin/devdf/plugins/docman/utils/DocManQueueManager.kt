@@ -5,7 +5,8 @@ import devdf.plugins.docman.extensions.alreadyRunning
 
 /** Queue for the method calls, and manages the method calls in it. */
 class DocManQueueManager {
-    val queue: MutableMap<Int, MethodBase> = mutableMapOf()
+    /** The queue used for all methods for activity channel,  */
+    val queue: MutableMap<String, MethodBase> = mutableMapOf()
 
     /** Adds method to the queue with validation.
      * If the method is already in the queue, set result as error,
@@ -33,7 +34,7 @@ class DocManQueueManager {
      * @param result Any data to send as result.
      * @return true if the method call is removed from the queue, false otherwise.
      */
-    fun finishWithSuccess(requestCode: Int, result: Any?): Boolean {
+    fun finishWithSuccess(requestCode: String, result: Any?): Boolean {
         //1. Send the result
         method(requestCode)?.result?.success(result)
         //2. Remove the method call from the queue
@@ -51,7 +52,7 @@ class DocManQueueManager {
      * @return true if the method call is removed from the queue, false otherwise.
      */
     fun finishWithError(
-        request: Int,
+        request: String,
         code: String,
         message: String?,
         details: Any?
@@ -71,7 +72,7 @@ class DocManQueueManager {
      * It's `ordinal` from the `DocManMethod` enum.
      * @return true if the method call is removed from the queue, false otherwise.
      */
-    fun finishNotImplemented(requestCode: Int): Boolean {
+    fun finishNotImplemented(requestCode: String): Boolean {
         //1. Send the error
         method(requestCode)?.result?.notImplemented()
         //2. Remove the method call from the queue
@@ -85,7 +86,7 @@ class DocManQueueManager {
      * It's `ordinal` from the `DocManMethod` enum.
      * @return  The method that was removed from the queue.
      */
-    fun remove(requestCode: Int): MethodBase? =
+    fun remove(requestCode: String): MethodBase? =
         queue.remove(requestCode)
 
     /** Get the method call from the queue with the [requestCode]
@@ -94,7 +95,7 @@ class DocManQueueManager {
      * It's `ordinal` from the `DocManMethod` enum.
      * @return The method call.
      * */
-    fun method(requestCode: Int): MethodBase? = queue[requestCode]
+    fun method(requestCode: String): MethodBase? = queue[requestCode]
 
     /** Get the method call from the queue with the [requestCode]
      *
@@ -102,7 +103,7 @@ class DocManQueueManager {
      * It's `ordinal` from the `DocManMethod` enum.
      * @return The method call casted to the [T] type.
      * */
-    inline fun <reified T : MethodBase> methodCast(requestCode: Int): T? {
+    inline fun <reified T : MethodBase> methodCast(requestCode: String): T? {
         return queue[requestCode] as? T
     }
 }

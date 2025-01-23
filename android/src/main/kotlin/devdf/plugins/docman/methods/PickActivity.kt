@@ -81,13 +81,13 @@ internal data class PickActivityArgs(
                     call.argAsListString("mimeTypes"),
                     call.argAsListString("extensions")
                 ),
-                localOnly = call.argument<Boolean>("localOnly") ?: false,
-                grantPermissions = call.argument<Boolean>("grantPermissions") ?: true,
+                localOnly = call.argument<Boolean>("localOnly") == true,
+                grantPermissions = call.argument<Boolean>("grantPermissions") != false,
                 limit = call.argument<Int>("limit") ?: 1,
                 limitResult = PickLimitResult.fromString(call.argument("limitType")),
                 limitToast = call.argument("limitToast") ?: "Pick limit reached",
                 imageQuality = call.argument<Int>("imageQuality") ?: 100,
-                usePhotoPicker = call.argument<Boolean>("usePhotoPicker") ?: true,
+                usePhotoPicker = call.argument<Boolean>("usePhotoPicker") != false,
                 initDir = call.argument<String>("initDir")
             )
         }
@@ -135,8 +135,8 @@ class PickActivity(
 
         //2. Start the activity
         try {
-            plugin.binding?.activity?.startActivityForResult(activityIntent(), requestCode)
-        } catch (e: Exception) {
+            plugin.binding?.activity?.startActivityForResult(activityIntent(), requestCode.toInt())
+        } catch (_: Exception) {
             plugin.queue.finishWithError(
                 requestCode,
                 "no_activity",

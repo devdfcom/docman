@@ -14,11 +14,11 @@ data class DirectoryFlags(
 ) {
     companion object {
         fun fromJson(resultMap: Map<String, Any?>?): DirectoryFlags = DirectoryFlags(
-            create = resultMap?.get("create") as? Boolean ?: true,
-            delete = resultMap?.get("delete") as? Boolean ?: true,
-            move = resultMap?.get("move") as? Boolean ?: true,
-            rename = resultMap?.get("rename") as? Boolean ?: true,
-            copy = resultMap?.get("copy") as? Boolean ?: true,
+            create = resultMap?.get("create") as? Boolean != false,
+            delete = resultMap?.get("delete") as? Boolean != false,
+            move = resultMap?.get("move") as? Boolean != false,
+            rename = resultMap?.get("rename") as? Boolean != false,
+            copy = resultMap?.get("copy") as? Boolean != false,
         )
     }
 }
@@ -33,12 +33,12 @@ data class FileFlags(
 ) {
     companion object {
         fun fromJson(resultMap: Map<String, Any?>?): FileFlags = FileFlags(
-            write = resultMap?.get("write") as? Boolean ?: true,
-            delete = resultMap?.get("delete") as? Boolean ?: true,
-            move = resultMap?.get("move") as? Boolean ?: true,
-            rename = resultMap?.get("rename") as? Boolean ?: true,
-            copy = resultMap?.get("copy") as? Boolean ?: true,
-            thumbnail = resultMap?.get("thumbnail") as? Boolean ?: true,
+            write = resultMap?.get("write") as? Boolean != false,
+            delete = resultMap?.get("delete") as? Boolean != false,
+            move = resultMap?.get("move") as? Boolean != false,
+            rename = resultMap?.get("rename") as? Boolean != false,
+            copy = resultMap?.get("copy") as? Boolean != false,
+            thumbnail = resultMap?.get("thumbnail") as? Boolean != false,
         )
     }
 }
@@ -79,9 +79,9 @@ class DocManProviderSettings(
                 providerName = map["providerName"] as? String,
                 providerSubtitle = map["providerSubtitle"] as? String,
                 mimeTypes = mimeTypes,
-                showInSystemUI = map["showInSystemUI"] as? Boolean ?: true,
-                supportRecent = map["supportRecent"] as? Boolean ?: true,
-                supportSearch = map["supportSearch"] as? Boolean ?: true,
+                showInSystemUI = map["showInSystemUI"] as? Boolean != false,
+                supportRecent = map["supportRecent"] as? Boolean != false,
+                supportSearch = map["supportSearch"] as? Boolean != false,
                 maxRecentFiles = map["maxRecentFiles"] as? Int ?: 15,
                 maxSearchResults = map["maxSearchResults"] as? Int ?: 10,
                 directoryFlags = dirFlags,

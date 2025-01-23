@@ -32,9 +32,9 @@ class PermissionsAction(
 
     private val uri: Uri? = call.argument<String>("uri")?.toUri()
 
-    private val dirs: Boolean = call.argument<Boolean>("dirs") ?: true
+    private val dirs: Boolean = call.argument<Boolean>("dirs") != false
 
-    private val files: Boolean = call.argument<Boolean>("files") ?: true
+    private val files: Boolean = call.argument<Boolean>("files") != false
 
     override fun oMethodCall() {
         //Validate the action
