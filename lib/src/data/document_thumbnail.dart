@@ -59,7 +59,13 @@ class DocumentThumbnail {
     bool png = false,
     bool webp = false,
   }) =>
-      DocumentFile(uri: uri, exists: true, canThumbnail: true).thumbnail();
+      DocumentFile(uri: uri, exists: true, canThumbnail: true).thumbnail(
+        width: width,
+        height: height,
+        quality: quality,
+        png: png,
+        webp: webp,
+      );
 
   /// Converts the instance to a map.
   Map<String, dynamic> toMap() => <String, dynamic>{
