@@ -48,4 +48,21 @@ class DocManAppDirs {
   ///
   /// Returns `true` if the directories were cleared successfully, otherwise `false`.
   Future<bool> clearCache() => AppDir.cache.clear();
+
+  /// Get all application directories (paths) at once.
+  ///
+  /// Returns a map of all the app directories.
+  /// Only the values of `cacheExt` & `filesExt` can be empty Strings.
+  ///
+  /// Result Example:
+  /// ```dart
+  /// {
+  ///  "cache": "/data/user/0/devdf.plugins.docman_example/cache",
+  ///  "files": "/data/user/0/devdf.plugins.docman_example/files",
+  ///  "data": "/data/user/0/devdf.plugins.docman_example/app_flutter",
+  ///  "cacheExt": "/storage/emulated/0/Android/data/devdf.plugins.docman_example/cache",
+  ///  "filesExt": "/storage/emulated/0/Android/data/devdf.plugins.docman_example/files"
+  /// }
+  /// ```
+  Future<Map<String, String>?> all() => AppDir.all();
 }

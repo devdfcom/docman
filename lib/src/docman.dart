@@ -18,7 +18,8 @@ class DocMan {
   /// [DocManPicker] for the picker methods, like `directory`, `documents`, and `files`.
   static final pick = DocManPicker();
 
-  /// [DocManAppDirs] for the application directories, like `cache`, `files`, `data`, `cacheExt`, and `filesExt`.
+  /// [DocManAppDirs] for the application directories, like `cache`, `files`, `data`, `cacheExt`, and `filesExt`,
+  /// or get all directories at once with `all` method.
   static final dir = DocManAppDirs();
 
   /// [DocManPermissionManager] for the persisted permission manager.

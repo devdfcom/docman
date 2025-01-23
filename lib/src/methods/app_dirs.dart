@@ -50,6 +50,13 @@ enum AppDir {
   Future<bool> clear() async =>
       await _onMethodResult<bool>(_args('clear')) ?? false;
 
+  /// Get all application directories (paths) at once.
+  static Future<Map<String, String>?> all() async {
+    final result = await ActionChannel.instance
+        .call<Map>('appdirs', {'dir': 'all', 'action': 'all'});
+    return result?.cast<String, String>();
+  }
+
   /// Get [Directory] by path
   Future<Directory?> asDir() async {
     final path = await getPath();
